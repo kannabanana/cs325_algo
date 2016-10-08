@@ -136,7 +136,7 @@ void loadVectors(vector<int> &P, vector<int> &Q, int &N)
 
 void countIntersections(vector<int> &P, vector<int> &Q, int N, int &n_inter)
 {
-	if (N == 1)
+	if (N == 0)
 		return;
 	cout << endl; cout << endl;
 	cout << "N=" << N << endl;
