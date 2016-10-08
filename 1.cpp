@@ -134,16 +134,35 @@ void loadVectors(vector<int> &P, vector<int> &Q, int &N)
 	input.close();
 }
 
-void countIntersections(vector<int> &P, vector<int> &Q, int N)
+void countIntersections(vector<int> &P, vector<int> &Q, int N, int &n_inter)
 {
+	if (N == 1)
+		return;
+	cout << endl; cout << endl;
+	cout << "N=" << N << endl;
 	//algorithm: for Pn, count pairs of Qi,Pi for which Qi > Qn but Pi < Pn
-	
+	for (int i = 0; i < N; i++) //check Pi for i < N
+	{
+		cout << "Q" << i << "= " << Q.at(i) << " & Qn = " << Q.at(N) << endl;
+		if (Q.at(i) > Q.at(N))
+		{
+			cout << "check p" << endl;
+			cout << "P" << i << "= " << P.at(i) << " & Qn = " << P.at(N) << endl;
+			if (P.at(i) < P.at(N))
+			{
+				cout << "INTERSECTION" << endl;
+				n_inter++;
+			}
+		}
+	}
+	countIntersections(P, Q, N-1, n_inter);	
 }
 
 int main()
 {
 
 	int N;
+	int n_inter = 0;
 	vector<int> P;
 	//vector< vector<int> > Q; 
 	//Q values are tuples; order is [original index, value]
@@ -155,7 +174,9 @@ int main()
 	printVector(P);
 	printVector(Q);
 
-	countIntersections(P, Q, N);
+	countIntersections(P, Q, N-1, n_inter);
+
+	cout << "# inter = " << n_inter;
 
 	return 0;
 }
