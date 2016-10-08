@@ -1,0 +1,17 @@
+Line-by-line runtime analysis:
+
+O(N)	for (int i = 0; i < N; i++) //check Pi for i < N
+		{
+			cout << "Q" << i << "= " << Q.at(i) << " & Qn = " << Q.at(N) << endl;
+			if (Q.at(i) > Q.at(N))
+			{
+				cout << "check p" << endl;
+				cout << "P" << i << "= " << P.at(i) << " & Qn = " << P.at(N) << endl;
+				if (P.at(i) < P.at(N))
+				{
+					cout << "INTERSECTION" << endl;
+					n_inter++;
+				}
+			}
+		}
+T(N-1)	countIntersections(P, Q, N-1, n_inter);	
