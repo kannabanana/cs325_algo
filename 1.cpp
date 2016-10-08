@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <string>
+#include <cstdlib>
 
 using namespace std;
 
@@ -12,7 +12,17 @@ void loadVectors(vector<int>* P, vector<int>* Q, int* N)
 	input.open("input.txt");
 
 	//use this space to get stuff
-
+	char c_temp;
+	int n_temp = 0;
+	int i = 0;
+	while (input.get(c_temp))
+	{
+		if (c_temp == '\n')
+			break;
+		cout << c_temp << endl;
+		cout << atoi(c_temp) << endl;
+		n_temp++;
+	}
 	input.close();
 }
 
