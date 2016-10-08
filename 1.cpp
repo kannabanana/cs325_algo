@@ -134,7 +134,7 @@ void loadVectors(vector<int> &P, vector<int> &Q, int &N)
 	input.close();
 }
 
-void countIntersections(vector<int> &P, vector<int> &Q, int N, int &n_inter)
+void countIntersectionsRec(vector<int> &P, vector<int> &Q, int N, int &n_inter)
 {
 	if (N == 0)
 		return;
@@ -155,7 +155,27 @@ void countIntersections(vector<int> &P, vector<int> &Q, int N, int &n_inter)
 			}
 		}
 	}
-	countIntersections(P, Q, N-1, n_inter);	
+	countIntersectionsRec(P, Q, N-1, n_inter);	
+}
+
+//currently doesn't work fully, only catches some
+void countIntersections(vector<int> &P, vector<int> &Q, int N, int &n_inter)
+{
+	for (int i = 0; i < N; i++)
+	{
+		for (int j = 0; j < N; j++)
+		{
+			if (Q.at(j) > Q.at(i))
+			{
+				cout << "Q" << i << "= " << Q.at(j) << " & Qn = " << Q.at(i) << endl;
+				if (P.at(j) < P.at(i))
+				{
+					cout << "P" << i << "= " << P.at(j) << " & Qn = " << P.at(i) << endl;
+					n_inter++;
+				}
+			}
+		}
+	}
 }
 
 int main()
@@ -174,9 +194,15 @@ int main()
 	printVector(P);
 	printVector(Q);
 
-	countIntersections(P, Q, N-1, n_inter);
+	countIntersectionsRec(P, Q, N-1, n_inter);
 
-	cout << "# inter = " << n_inter;
+	cout << "rec # inter = " << n_inter << endl;
+
+	n_inter = 0;
+
+	countIntersections(P, Q, N-1, n_inter);
+	
+	cout << "inter = " << n_inter << endl;
 
 	return 0;
 }
