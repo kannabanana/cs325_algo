@@ -16,10 +16,10 @@ void printVector(vector<int> V)
 
 //funciton populates vectors P and Q from the input file; also gets N
 //void loadVectors(vector<int> &P, vector< vector<int> > &Q, int &N)
-void loadVectors(vector<int> &P, vector<int> &Q, int &N)
+void loadVectors(vector<int> &P, vector<int> &Q, int &N, char* filename)
 {
 	ifstream input;
-	input.open("input.txt");
+	input.open(filename);
 
 	//use this space to get stuff
 	char c_temp;
@@ -158,27 +158,27 @@ void countIntersectionsRec(vector<int> &P, vector<int> &Q, int N, int &n_inter)
 	countIntersectionsRec(P, Q, N-1, n_inter);	
 }
 
-//currently doesn't work fully, only catches some
-void countIntersections(vector<int> &P, vector<int> &Q, int N, int &n_inter)
-{
-	for (int i = 0; i < N; i++)
-	{
-		for (int j = 0; j < N; j++)
-		{
-			if (Q.at(j) > Q.at(i))
-			{
-				cout << "Q" << i << "= " << Q.at(j) << " & Qn = " << Q.at(i) << endl;
-				if (P.at(j) < P.at(i))
-				{
-					cout << "P" << i << "= " << P.at(j) << " & Qn = " << P.at(i) << endl;
-					n_inter++;
-				}
-			}
-		}
-	}
-}
+//in order to get nlogn complexity, need the recursion tree to double in # nodes each time
+//(call itself twice, each with half the size). How to do this? Maybe we can eliminate
+//a set of points if they can't intersect to work with a smaller data set?
 
-int main()
+//What about a set of points can we divide in half? Probably by their magnitudes, i.e. divide
+//a set into the larger and smaller half. But how would we be able to count intersections that
+//occured between a larger and smaller point...
+
+//maybe the best solution is to, for each point, do a log(n) operation; that way since we run that
+//operation n times our algorithm will be nlog(n) right?
+
+//log(n) operations are similar to binary search; maybe we could run a binary search for each of the
+//n points to find intersections that way? Doesn't sound unworkable.
+
+//I think a key crossover from the n^2 algorithm above is reducing the size of the problem each time
+//a Pn value is examined. Maybe we can approach finding intersections the same way...
+
+//
+
+
+int main(int argc, char* argv[])
 {
 
 	int N;
@@ -189,20 +189,14 @@ int main()
 	//will be sorted based on value, need to preserve original index
 	vector<int> Q;
 
-	loadVectors(P, Q, N);
+	loadVectors(P, Q, N, argv[1]);
 
 	printVector(P);
 	printVector(Q);
 
 	countIntersectionsRec(P, Q, N-1, n_inter);
 
-	cout << "rec # inter = " << n_inter << endl;
-
-	n_inter = 0;
-
-	countIntersections(P, Q, N-1, n_inter);
-	
-	cout << "inter = " << n_inter << endl;
+	cout << "Algorithm #1 found # inter = " << n_inter << endl;
 
 	return 0;
 }

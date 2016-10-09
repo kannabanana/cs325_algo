@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+./ga1 input.txt
+./ga1 input2.txt
