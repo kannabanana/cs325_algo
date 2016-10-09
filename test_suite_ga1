@@ -1,4 +1,9 @@
 #!/usr/bin/bash
 
-./ga1 input.txt
-./ga1 input2.txt
+./ga1 input.txt > dump1.txt
+echo "Results of file input.txt:"
+cat output.txt
+./ga1 input2.txt > dump2.txt
+./ga1 input3.txt
+./ga1 input4.txt
+./ga1 input5.txt

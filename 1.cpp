@@ -178,6 +178,16 @@ void countIntersectionsRec(vector<int> &P, vector<int> &Q, int N, int &n_inter)
 //
 
 
+void outputFile(int n_inter, char* filename)
+{
+	fstream output;
+	output.open(filename);
+	output << n_inter;
+	output.close();
+	cout << "outputting to file " << filename << " the number " << n_inter << endl;
+}
+
+
 int main(int argc, char* argv[])
 {
 
@@ -197,6 +207,9 @@ int main(int argc, char* argv[])
 	countIntersectionsRec(P, Q, N-1, n_inter);
 
 	cout << "Algorithm #1 found # inter = " << n_inter << endl;
+
+	//sorta sloppy but gets the job one; outputs to file output.txt as required
+	outputFile(n_inter, "output.txt");
 
 	return 0;
 }
