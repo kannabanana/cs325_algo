@@ -111,75 +111,32 @@ void loadVectors(vector<int> &P, vector<int> &Q, int &N)
 
 
 
-void countIntersectionsRec(vector<int> &P, vector<int> &Q, int N, int &n_inter)
-{
-	if (N == 0)
-		return;
-	cout << endl; cout << endl;
-	cout << "N=" << N << endl;
-	//algorithm: for Pn, count pairs of Qi,Pi for which Qi > Qn but Pi < Pn
-	for (int i = 0; i < N; ++i) //check Pi for i < N
-	{
-		cout << "Q" << i << "= " << Q.at(i) << " & Qn = " << Q.at(N) << endl;
-		if (Q.at(i) > Q.at(N))
-		{
-			cout << "check p" << endl;
-			cout << "P" << i << "= " << P.at(i) << " & Qn = " << P.at(N) << endl;
-			if (P.at(i) < P.at(N))
-			{
-				cout << "INTERSECTION" << endl;
-				n_inter++;
-			}
-		}
-	}
-	countIntersectionsRec(P, Q, N-1, n_inter);	
-}
-
-//currently doesn't work fully, only catches some
-void countIntersections(vector<int> &P, vector<int> &Q, int N, int &n_inter)
-{
-	for (int i = 0; i < N; ++i)
-	{
-		for (int j = 0; j < N; ++j)
-		{
-			if (Q.at(j) > Q.at(i))
-			{
-				cout << "Q" << i << "= " << Q.at(j) << " & Qn = " << Q.at(i) << endl;
-				if (P.at(j) < P.at(i))
-				{
-					cout << "P" << i << "= " << P.at(j) << " & Qn = " << P.at(i) << endl;
-					n_inter++;
-				}
-			}
-		}
-	}
-}
 
 int main()
 {
 
 	int N;
-	int n_inter = 0;
+	int n_inter = 0;	//number of intersections
 	vector<int> P;
+	vector<int> Q;
+
 	//vector< vector<int> > Q; 
 	//Q values are tuples; order is [original index, value]
 	//will be sorted based on value, need to preserve original index
-	vector<int> Q;
 
-	loadVectors(P, Q, N);
+	loadVectors(P, Q, argv[1]);
 
+	//printing the vectors loaded from input.txt
 	printVector(P);
 	printVector(Q);
 
-	countIntersectionsRec(P, Q, N-1, n_inter);
-
-	cout << "rec # inter = " << n_inter << endl;
-
-	n_inter = 0;
-
-	countIntersections(P, Q, N-1, n_inter);
+	//countIntersectionsRec(P, Q, N-1, n_inter);
+	//nlogn function call
 	
-	cout << "inter = " << n_inter << endl;
+
+	cout << "Nlogn Algorithm found # inter = " << n_inter << endl;
+
+	outputFile(n_inter,"output.txt");
 
 	return 0;
 }
