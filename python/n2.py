@@ -1,4 +1,4 @@
-s is a n2 program to count the number of intersections recursively for cs325
+#s is a n2 program to count the number of intersections recursively for cs325
 #random function in python
 import random;
 import os;
@@ -10,11 +10,19 @@ def print_list(Q):
 	return
 
 
-#get 
+#gets vector Q, P from whatever input text we give it
 def input_list(P,Q,N,text):
 	fo = open(text,"r")
-	print fo.read()
+#	print fo.read()			prints out all contents in the file
+	n = fo.readline()
+	print "The number of line segments is", n
+	P = fo.readline()
+	print "P is ", P
+	Q = fo.readline()
+	print "Q is ", Q
 	return
+
+
 
 #define main
 def main():
@@ -22,7 +30,7 @@ def main():
 	P = [1,2,4];
 	N = 0;
 
-	print_list(Q);		#print list
+#	print_list(Q);		#print list
 	input_list(P,Q,N,sys.argv[1]);	
 
 
