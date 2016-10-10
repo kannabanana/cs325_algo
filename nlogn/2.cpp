@@ -27,11 +27,10 @@ void loadVectors(vector<int> &P, vector<int> &Q, int &N)
 	ifstream input;					
 	input.open("input.txt");
 
-	//use this space to get stuff
 	char c_temp;
 	char c_arry[5];
 	int i = 0; //length of number
-	//super awkward way but whatever it works
+
 	while (input.get(c_temp))
 	{
 		if (c_temp == '\n')
@@ -39,13 +38,19 @@ void loadVectors(vector<int> &P, vector<int> &Q, int &N)
 		c_arry[i] = c_temp;
 		++i;
 	}
-	N = atoi(c_arry);	
-	cout << "N=" << N << endl;
 
+	//convert string to int
+	N = atoi(c_arry);	
+
+	cout << "N=" << N << endl;		//display
+
+	//set array back to nothing
 	for (int j = 0; j < 5; ++j)
 		c_arry[j] = ' ';
 
+
 	i = 0; //reset length of # input
+
 	//line 2 is the values of Pn
 	while (input.get(c_temp)) //get pn
 	{
@@ -61,7 +66,7 @@ void loadVectors(vector<int> &P, vector<int> &Q, int &N)
 		}
 		else if (c_temp == '\n')
 		{
-			//does this work if line is empty?
+			//if there's nothing
 			P.push_back(atoi(c_arry));
 			break;
 		}
@@ -75,6 +80,8 @@ void loadVectors(vector<int> &P, vector<int> &Q, int &N)
 	i = 0; //reset length of # input
 	int idx = 0;
 
+
+	//get Qn
 	while (input.get(c_temp))
 	{
 		if (c_temp == ',')
@@ -89,6 +96,7 @@ void loadVectors(vector<int> &P, vector<int> &Q, int &N)
 		}
 		else if (c_temp == '\n')
 		{
+		//if it's empty
 			Q.push_back(atoi(c_arry));
 			break;
 		}
@@ -97,48 +105,11 @@ void loadVectors(vector<int> &P, vector<int> &Q, int &N)
 	}
 
 
-	//scrapped idea, disregard
-	/*
-
-	vector<int> indices;
-	vector<int> values;
-
-	//loop needs to fill Q by giving original index values
-	//and appropriately reading from input.txt
-
-	while (input.get(c_temp))
-	{
-		if (c_temp == '\n')
-		{
-			indices.push_back(idx);
-			values.push_back(atoi(c_arry));
-			idx++; //index is collected
-			break;
-		}
-		if (c_temp == ',')
-		{
-			values.push_back(atoi(c_arry));
-			for (int j = 0; j < 5; ++j)
-				c_arry[j] = ' ';
-			i = 0; //reset length of number
-			input.get(c_temp);
-			indices.push_back(idx);
-			idx++; //index is collected
-		}
-		c_arry[i] = c_temp;
-		++i;
-	}
-
-	Q.push_back(indices);
-	Q.push_back(values);
-
-	printVector(Q.front());
-	printVector(Q.back());
-	*/
-
-
-	input.close();
+	input.close();		//close input buffer
 }
+
+
+
 
 void countIntersectionsRec(vector<int> &P, vector<int> &Q, int N, int &n_inter)
 {
