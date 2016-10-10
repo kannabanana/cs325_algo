@@ -17,7 +17,7 @@ def input_list(P,Q,N,text):
 	print "Q is ", Q
 	return
 
-def n2(Q,P,N, intersection):
+#def n2(Q,P,N, intersection):
 	
 
 #test function - wanted to see how python handled functions and lists
@@ -26,10 +26,19 @@ def print_list(Q):
 	return
 
 
+def n2(P,Q,N,intersection):
+	for i in range(0,N):
+		#Q(i) > Q(N) and P(i) < P(N)		
+		if(Q[i] > Q[N]):
+			if(P[i] < P[N]):
+				++intersection;
+	return n2(P,Q,N-1,intersection);
+
+
 #define main
 def main():
-	Q = [10,15,20];
-	P = [1,2,4];
+	Q = [10,2,3];
+	P = [1,2,3];
 	N = 0;
 	intersection = 0;
 
@@ -37,7 +46,7 @@ def main():
 	input_list(P,Q,N,sys.argv[1]);	
 
 #n2 algorithm
-	n2(P,Q,N,intersection);
+#	n2(P,Q,N,intersection);
 
 #call main
 main()
