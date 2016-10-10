@@ -1,12 +1,12 @@
 #include <iostream>
 #include <fstream>
-#include <vector>
+#include <deque>
 #include <cstdlib>
 #include <algorithm>
 
 using namespace std;
 
-void printVector(vector<int> V)
+void printVector(deque<int> V)
 {
 	for (int i = 0; i < V.size(); i++)
 	{
@@ -15,9 +15,9 @@ void printVector(vector<int> V)
 	cout << endl;
 }
 
-//funciton populates vectors P and Q from the input file; also gets N
-//void loadVectors(vector<int> &P, vector< vector<int> > &Q, int &N)
-void loadVectors(vector<int> &P, vector<int> &Q, int &N, char* filename)
+//funciton populates deques P and Q from the input file; also gets N
+//void loadVectors(deque<int> &P, vector< vector<int> > &Q, int &N)
+void loadVectors(deque<int> &P, deque<int> &Q, int &N, char* filename)
 {
 	ifstream input;
 	input.open(filename);
@@ -95,8 +95,8 @@ void loadVectors(vector<int> &P, vector<int> &Q, int &N, char* filename)
 	//scrapped idea, disregard
 	/*
 
-	vector<int> indices;
-	vector<int> values;
+	deque<int> indices;
+	deque<int> values;
 
 	//loop needs to fill Q by giving original index values
 	//and appropriately reading from input.txt
@@ -135,7 +135,7 @@ void loadVectors(vector<int> &P, vector<int> &Q, int &N, char* filename)
 	input.close();
 }
 
-void nsquared(vector<int> &P, vector<int> &Q, int N, int &n_inter)
+void nsquared(deque<int> &P, deque<int> &Q, int N, int &n_inter)
 {
 	if (N == 0)
 		return;
@@ -181,7 +181,7 @@ void nsquared(vector<int> &P, vector<int> &Q, int N, int &n_inter)
 
 
 
-void merge(vector<int> Q, int begin, int middle, int end, int &n_inter)
+void merge(deque<int> &Q, int begin, int middle, int end, int &n_inter)
 {
 	//cognitive dissonance warning: Q is not always the entire array of Q
 	//but is labled so to make below comparisons between Qi and Qj more intuitive
@@ -190,11 +190,22 @@ void merge(vector<int> Q, int begin, int middle, int end, int &n_inter)
 	
 	//compute # index pairs i<j for which Qi > Qj [this results in an intersection]
 	//mergesort is nlogn time, so use a modified version of it	
+	deque<int> V;
 	int i = begin;
-	int j = middle;
+	int j = middle+1;
 	cout << endl << "Running merge with begin=" << begin << " middle=" << middle << " end=" << end << " Q=";
 	printVector(Q);
+	
 	for (int k = begin; k <= end; k++)
+	{
+		cout << "k=" << k << " ";
+		cout << "i=" << i << " j=" << j << " Qi=" << Q.at(i) << " Qj=" << Q.at(j);
+		cout << endl;
+	}
+	cout << endl;
+	
+
+	/*for (int k = begin; k <= end; k++)
 	{
 		//need to find: when i < j, Qi > Qj
 		cout << "i=" << i << " j=" << j << " Qi=" << Q.at(i) << " Qj=" << Q.at(j);
@@ -204,6 +215,13 @@ void merge(vector<int> Q, int begin, int middle, int end, int &n_inter)
 			{
 				cout << " INTER";
 				n_inter++;
+				cout << "Va pushing front " << Q.at(j);
+				V.push_front(Q.at(j));
+			}
+			else 
+			{
+				cout << "Va pushing front " << Q.at(i);
+				V.push_front(Q.at(i));
 			}
 			i++;
 		}
@@ -213,6 +231,13 @@ void merge(vector<int> Q, int begin, int middle, int end, int &n_inter)
 			{
 				cout << " INTER";
 				n_inter++;
+				cout << "Vb pushing front " << Q.at(j);
+				V.push_front(Q.at(j));
+			}
+			else
+			{	
+				V.push_front(Q.at(i));
+				cout << "Vb pushing front " << Q.at(i);
 			}
 			j++;
 		}
@@ -220,10 +245,14 @@ void merge(vector<int> Q, int begin, int middle, int end, int &n_inter)
 		{
 			cout << " INTER";
 			n_inter++;
+			cout << "Vc pushing front " << Q.at(j);
+			V.push_front(Q.at(j));
 			j++;
 		}
 		else if (Q.at(i) < Q.at(j))
 		{
+			cout << "Vd pushing front " << Q.at(i);
+			V.push_front(Q.at(i));
 			if (i+1 == j)
 			{
 				j++;
@@ -233,15 +262,18 @@ void merge(vector<int> Q, int begin, int middle, int end, int &n_inter)
 		}
 
 		cout << endl;
-	}
+	}*/
+	cout << "V=";
+	printVector(V);
 	//loop to copy work into real array if really sorting
 }
 
-void mergeSort(vector<int> Q, int begin, int end, int &n_inter)
+void mergeSort(deque<int> &Q, int begin, int end, int &n_inter)
 {
-	if ((end - begin) == 1) //if size of array is 1, don't do anything
-		return; //base case
 	cout << '\t' << "mergeSort with begin=" << begin << " end=" << end << " Q=";
+	printVector(Q);
+	if ((end - begin) <= 1) //if size of array is 1, don't do anything
+		return; //base case
 	printVector(Q);
 	int middle = (end+begin)/2;
 	mergeSort(Q, begin, middle, n_inter);
@@ -265,11 +297,11 @@ int main(int argc, char* argv[])
 	int N;
 	int n_inter = 0;
 	int tmp;
-	vector<int> P;
-	//vector< vector<int> > Q; 
+	deque<int> P;
+	//deque< vector<int> > Q; 
 	//Q values are tuples; order is [original index, value]
 	//will be sorted based on value, need to preserve original index
-	vector<int> Q;
+	deque<int> Q;
 
 
 	loadVectors(P, Q, N, argv[1]);
@@ -284,7 +316,7 @@ int main(int argc, char* argv[])
 
 	mergeSort(Q, 0, Q.size()-1, n_inter);
 
-	cout << "Algorithm #1 found # inter = " << n_inter << endl;
+	cout << "Algorithm #1 found # inter = " << tmp << endl;
 
 	cout << "Algorithm #2 found # inter = " << n_inter << endl;
 
