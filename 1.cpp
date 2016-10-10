@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <cstdlib>
+#include <algorithm>
 
 using namespace std;
 
@@ -134,7 +135,7 @@ void loadVectors(vector<int> &P, vector<int> &Q, int &N, char* filename)
 	input.close();
 }
 
-void countIntersectionsRec(vector<int> &P, vector<int> &Q, int N, int &n_inter)
+void nsquared(vector<int> &P, vector<int> &Q, int N, int &n_inter)
 {
 	if (N == 0)
 		return;
@@ -155,7 +156,7 @@ void countIntersectionsRec(vector<int> &P, vector<int> &Q, int N, int &n_inter)
 			}
 		}
 	}
-	countIntersectionsRec(P, Q, N-1, n_inter);	
+	nsquared(P, Q, N-1, n_inter);	
 }
 
 //in order to get nlogn complexity, need the recursion tree to double in # nodes each time
@@ -175,8 +176,76 @@ void countIntersectionsRec(vector<int> &P, vector<int> &Q, int N, int &n_inter)
 //I think a key crossover from the n^2 algorithm above is reducing the size of the problem each time
 //a Pn value is examined. Maybe we can approach finding intersections the same way...
 
-//
+//disregard above spitballing lol. Implementing algorithm from the source we found
 
+
+
+
+void merge(vector<int> Q, int begin, int middle, int end, int &n_inter)
+{
+	//cognitive dissonance warning: Q is not always the entire array of Q
+	//but is labled so to make below comparisons between Qi and Qj more intuitive
+
+	//drew on https://courses.engr.illinois.edu/cs374/homework/hw4.pdf
+	
+	//compute # index pairs i<j for which Qi > Qj [this results in an intersection]
+	//mergesort is nlogn time, so use a modified version of it	
+	int i = begin;
+	int j = middle;
+	cout << endl << "Running merge with begin=" << begin << " middle=" << middle << " end=" << end << " Q=";
+	printVector(Q);
+	for (int k = begin; k <= end; k++)
+	{
+		cout << "Comparing Q" << i << "=" << Q.at(i) << " to Q" << j << "=" << Q.at(j) << endl;
+		if (Q.at(i) > Q.at(j))
+		{
+			cout << "INTERSECTION" << '\t' << "Q" << i << ">Q" << j << endl;
+			n_inter++;
+			i++;
+			cout << "i now " << i << endl;
+			if (i == middle && j != end)
+			{
+				j++;
+				cout << "i=" << i << "=middle; j now " << j << endl;
+			}
+			else 
+			{
+				cout << "i=" << i << "=middle, j=" << j << "=end" << endl;
+				break; //i == middle, j == end
+			}
+		}
+		else if (Q.at(i) < Q.at(j))
+		{
+			j++;
+			cout << "j now " << j << endl;
+			if (j == end && i != middle)
+			{
+				i++;
+				cout << "j=" << j << "=end; i now " << i << endl;
+			}
+			else
+			{
+				cout << "i=" << i << "=middle, j=" << j << "=end" << endl;
+				break; //i == middle, j == end
+			}
+		}
+		else cout << "whoops!" << endl;
+		
+	}
+	//loop to copy work into real array if really sorting
+}
+
+void mergeSort(vector<int> Q, int begin, int end, int &n_inter)
+{
+	if ((end - begin) < 2) //if size of array is 1, don't do anything
+		return; //base case
+	cout << '\t' << "mergeSort with begin=" << begin << " end=" << end << " Q=";
+	printVector(Q);
+	int middle = (end+begin)/2;
+	mergeSort(Q, begin, middle, n_inter);
+	mergeSort(Q, middle, end, n_inter);
+	merge(Q, begin, middle, end, n_inter);
+}
 
 void outputFile(int n_inter, char* filename)
 {
@@ -204,9 +273,15 @@ int main(int argc, char* argv[])
 	printVector(P);
 	printVector(Q);
 
-	countIntersectionsRec(P, Q, N-1, n_inter);
+	nsquared(P, Q, N-1, n_inter);
 
 	cout << "Algorithm #1 found # inter = " << n_inter << endl;
+
+	n_inter = 0;
+
+	mergeSort(Q, 0, Q.size()-1, n_inter);
+
+	cout << "Algorithm #2 found # inter = " << n_inter << endl;
 
 	//sorta sloppy but gets the job one; outputs to file output.txt as required
 	outputFile(n_inter, "output.txt");
