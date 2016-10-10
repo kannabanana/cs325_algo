@@ -196,40 +196,6 @@ void merge(vector<int> Q, int begin, int middle, int end, int &n_inter)
 	printVector(Q);
 	for (int k = begin; k <= end; k++)
 	{
-		cout << "Comparing Q" << i << "=" << Q.at(i) << " to Q" << j << "=" << Q.at(j) << endl;
-		if (Q.at(i) > Q.at(j))
-		{
-			cout << "INTERSECTION" << '\t' << "Q" << i << ">Q" << j << endl;
-			n_inter++;
-			i++;
-			cout << "i now " << i << endl;
-			if (i == middle && j != end)
-			{
-				j++;
-				cout << "i=" << i << "=middle; j now " << j << endl;
-			}
-			else 
-			{
-				cout << "i=" << i << "=middle, j=" << j << "=end" << endl;
-				break; //i == middle, j == end
-			}
-		}
-		else if (Q.at(i) < Q.at(j))
-		{
-			j++;
-			cout << "j now " << j << endl;
-			if (j == end && i != middle)
-			{
-				i++;
-				cout << "j=" << j << "=end; i now " << i << endl;
-			}
-			else
-			{
-				cout << "i=" << i << "=middle, j=" << j << "=end" << endl;
-				break; //i == middle, j == end
-			}
-		}
-		else cout << "whoops!" << endl;
 		
 	}
 	//loop to copy work into real array if really sorting
