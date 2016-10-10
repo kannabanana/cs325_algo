@@ -4,11 +4,6 @@ import random;
 import os;
 import sys;
 
-#print the list
-def print_list(Q):
-	print "Q is", Q
-	return
-
 
 #gets vector Q, P from whatever input text we give it
 def input_list(P,Q,N,text):
@@ -22,6 +17,13 @@ def input_list(P,Q,N,text):
 	print "Q is ", Q
 	return
 
+def n2(Q,P,N, intersection):
+	
+
+#test function - wanted to see how python handled functions and lists
+def print_list(Q):
+	print "Q is", Q
+	return
 
 
 #define main
@@ -29,10 +31,13 @@ def main():
 	Q = [10,15,20];
 	P = [1,2,4];
 	N = 0;
+	intersection = 0;
 
-#	print_list(Q);		#print list
+	#input list P,Q and number of line segments from a given text file
 	input_list(P,Q,N,sys.argv[1]);	
 
+#n2 algorithm
+	n2(P,Q,N,intersection);
 
 #call main
 main()
