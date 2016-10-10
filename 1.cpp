@@ -196,14 +196,50 @@ void merge(vector<int> Q, int begin, int middle, int end, int &n_inter)
 	printVector(Q);
 	for (int k = begin; k <= end; k++)
 	{
-		
+		//need to find: when i < j, Qi > Qj
+		cout << "i=" << i << " j=" << j << " Qi=" << Q.at(i) << " Qj=" << Q.at(j);
+		if (j >= end)
+		{
+			if (Q.at(i) > Q.at(j))
+			{
+				cout << " INTER";
+				n_inter++;
+			}
+			i++;
+		}
+		else if (i >= middle)
+		{
+			if (Q.at(i) > Q.at(j))
+			{
+				cout << " INTER";
+				n_inter++;
+			}
+			j++;
+		}
+		else if (Q.at(i) > Q.at(j)) //INTERSECTiON
+		{
+			cout << " INTER";
+			n_inter++;
+			j++;
+		}
+		else if (Q.at(i) < Q.at(j))
+		{
+			if (i+1 == j)
+			{
+				j++;
+				i++;
+			}
+			else i++;
+		}
+
+		cout << endl;
 	}
 	//loop to copy work into real array if really sorting
 }
 
 void mergeSort(vector<int> Q, int begin, int end, int &n_inter)
 {
-	if ((end - begin) < 2) //if size of array is 1, don't do anything
+	if ((end - begin) == 1) //if size of array is 1, don't do anything
 		return; //base case
 	cout << '\t' << "mergeSort with begin=" << begin << " end=" << end << " Q=";
 	printVector(Q);
@@ -228,11 +264,13 @@ int main(int argc, char* argv[])
 
 	int N;
 	int n_inter = 0;
+	int tmp;
 	vector<int> P;
 	//vector< vector<int> > Q; 
 	//Q values are tuples; order is [original index, value]
 	//will be sorted based on value, need to preserve original index
 	vector<int> Q;
+
 
 	loadVectors(P, Q, N, argv[1]);
 
@@ -241,11 +279,12 @@ int main(int argc, char* argv[])
 
 	nsquared(P, Q, N-1, n_inter);
 
-	cout << "Algorithm #1 found # inter = " << n_inter << endl;
-
+	tmp = n_inter;
 	n_inter = 0;
 
 	mergeSort(Q, 0, Q.size()-1, n_inter);
+
+	cout << "Algorithm #1 found # inter = " << n_inter << endl;
 
 	cout << "Algorithm #2 found # inter = " << n_inter << endl;
 
