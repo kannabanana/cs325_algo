@@ -1,35 +1,210 @@
-office hrs: 2-3 pm
+#NAME: SR Kanna, Isaac Stallcup
+#COURSE: Algorithms CS325
+#DATE: Fall 2016, 10/11/2016
+#INSTRUCTOR: Amir Nayyeri
 
-Report (70%). 
-In your report, include descriptions for both algorithms. Prove that your algorithms are correct, and provide running time analysis. Algorithms should be explained in plain english. You can use pseudocodes if it helps your explanation, but the grader will not try to understand a complicated pseudocode.
+ANALYSIS OF ALGORITHMS PRESENTED
 
-N^2
+First algorithm: name n2
+
+Description
+##########################################################
+
+This algorithm takes, as inputs, the sets P and Q along
+with N, the number of points in P and Q, and a counter
+to keep track of the number of intersections.
+
+The altorithm works by iterating through the elements of Q
+starting from Q0 and working to QN for the current value
+of N. For each Qi, it compares the values of Qi and QN.
+
+Two points Pi, Pj with Pi < Pj have lines that intersect 
+if their respective Q-values, Qi and Qj, satisfy the 
+inequality Qi > Qj. 
+
+In each comparison that the aglorithm performs between 
+Qi and QN, it checks to see if the above "reversal" is
+satisfied, namely that if Qi > QN, Pi < PN. If this is
+true, the algorithm increments the counter variable 
+keeping track of the # of intersections.
+
+The algorithm is recursive, in that it calls itself with
+N smaller by one after all comparisons for Qi -> QN have
+been performed (again, i ranges from 0 to the current
+value of N). The algorithm can shrink N becuase it is
+uneccessary to compare Pi values to PN when i>n as we
+can say that Pi > PN if i > N (P is sorted).
+
+This algorithm is O(N^2) time; all lines other than the
+for loop on line 67 and the recursive call on line 77
+have runtime O(1). The for loop has runtime of O(N), and
+the recursive call performs this O(N) loop on each of the
+N elements of Q, so the algorithm is O(N^2).
+
+
+
+
+#n2 algorithm (compares Q[i] > Q[n] && P[i] < P[n])
+def n2(P,Q,N,intersection):
+#	print "inside n2 ",
+#	print "N is ", N
+#	print " P is",P
+#	print "Q is ",Q
+#	print "intersection is ", intersection
+
+	if N == 0:
+#		print "base case! Intersection count is", intersection 
+		return intersection;
+	else:
+#		print "not base case!"
+		for i in range(0,N):
+		#Q(i) > Q(N) and P(i) < P(N)		
+			if(Q[i] > Q[N]):
+#				print "Q[i] is ",Q[i],"Q[N] is ", Q[N]
+				if(P[i] < P[N]):
+#					print "P[i] is ", P[i],"P[N] is ",P[N]
+#					print "going to update intersection from", intersection
+					#++intersection; omg python doesn't let me do this
+					intersection += 1;
+#					print "intersection is now", intersection
+		return n2(P,Q,N-1,intersection);
+
+
+
+
+
+#combine the two arrays
+def combine(first,second):
+
+	fo = open("output.txt","r")
+	nlogn_intersection = fo.readline()
+	print "nlogn_intersection inside COMBINE FUNCTION ",nlogn_intersection
+				
+
+	temp = []		#empty list
+
+	#the first and second can't be zero
+	while len(first) != 0 and len(second) != 0:
+		if first[0] < second[0]:
+			temp.append(first[0])
+			first.remove(first[0])
+		else:
+			temp.append(second[0])
+			second.remove(second[0])
+	if len(first) == 0:
+		temp += second
+	else:
+		temp += first
+    
+	return temp
+
+
+
+#main function for mergesort
+def mergesort(Q):
+
+	#base case - length 0 or 1
+	if len(Q) == 1 or len(Q) == 0:
+   #     	return nlogn_intersection
+		return Q
+
+    	else:
+		mid = len(Q)/2			#divide by two
+
+		print "the length of Q is ",len(Q)	
+		print "\n\nQ right now is ", Q
+		i = 0;
+		print "i in mergesort function is ",i
+		print "m is ",mid
+		j = mid+1;
+		print "j in mergesort function is ",j
+		print "\n\n"		
+
+
+
+#following the algorithm - lets see what happens (follow the yellow brick road)
+		for k in range(0,mid):
+#			if Q[j]>Q[mid]:
+			if j>mid:
+				i += 1;
+			
+				fo = open("output.txt","r")
+				nlogn_intersection = fo.readline()
+			
+				print "FIRST CASE nlogn_intersection is ",nlogn_intersection
+			
+				nlogn_intersection = int(nlogn_intersection)
+				nlogn_intersection += 1;
+				print "updated nlogn_intersection is ",nlogn_intersection
+
+				output(nlogn_intersection)
+
+			elif i>mid:
+				j += 1;
+		
+
+#LOL this case never hits
+			elif Q[i] < Q[j]:
+
+				i += 1;
+				fo = open("output.txt","r")
+				nlogn_intersection = fo.readline()
+
+				print "SECOND CASE nlogn_intersection is ",nlogn_intersection
+				nlogn_intersection = int(nlogn_intersection)	
+				nlogn_intersection += 1;
+				print "updated nlogn_intersection is ",nlogn_intersection
+				output(nlogn_intersection)
+
+			else:
+				j +=1;
+
+
+       		first = mergesort(Q[:mid])	#recursive call on the mid
+        	second = mergesort(Q[mid:])
+        	return combine(first,second)
+
+
+
+#function to output to output.txt
+def output(intersection):
+#	print "in output the intersetemption is ", intersection
+	fo = open("output.txt","w+")		#will create output.txt if it doesn't exist
+	fo.write(str(intersection))
+
+
+
+#define main
+def main():
+	intersection = 0;
+
+	#input list P,Q and number of line segments from a given text file
+	N = input_listN(sys.argv[1]);	
+	N = int(N)	#convert str to int
+
+
+	#getting the P list without commas
+	P = input_listP(sys.argv[1]);
+	for i in range(0,len(P)):
+		P[i] = int(P[i])
 	
+	#getting the Q list without commas (cheating because only one return and I know how many lines in text file)
+	Q = input_listQ(sys.argv[1]);	
+	for i in range(0,len(Q)):
+		Q[i] = int(Q[i])
 
-Nlogn
+	
+	#n2 algorithm
+#	intersection = n2(P,Q,N-1,intersection);	
+	#write to output function
+#	output(intersection);
 
-Time complexity of mergesort: Θ(n log(n))
+	nlogn_intersection = 0	
+	output(nlogn_intersection);
 
-Citation: https://courses.engr.illinois.edu/cs374/homework/hw4.pdf
-
-Description:
-
-
-General Protocol:
-	-compare i and j
-	-if i is less than j, and the the indexed value of i is greater than j in the vector Q, then the line segments will intersect
-	-if there are less than 100 numbers, brute force is used, so the logarithmic time is constant (O(1)). 
-
-
--Split Q into two and sort it and count inversions as you go
-
+	Q = mergesort(Q);
+	print Q
 
 
-
-Running time analysis:
-
-still runs in O(n) time,
- T(n) = 2T(n/2) + O(n)
-So it’s still O(n log n)
-
-
+#call main
+main()
