@@ -82,45 +82,76 @@ def n2(P,Q,N,intersection):
 
 #combine the two arrays
 def combine(first,second):
-    temp = []		#empty list
+#	print "inside combine function i is ",i
+#	print "inside combine function j is ",j
+
+	temp = []		#empty list
 
 	#the first and second can't be zero
-    while len(first) != 0 and len(second) != 0:
-        if first[0] < second[0]:
-            temp.append(first[0])
-            first.remove(first[0])
-        else:
-            temp.append(second[0])
-            second.remove(second[0])
-    if len(first) == 0:
-        temp += second
-    else:
-        temp += first
-    return temp
-
-
+	while len(first) != 0 and len(second) != 0:
+		if first[0] < second[0]:
+			temp.append(first[0])
+			first.remove(first[0])
+		else:
+			temp.append(second[0])
+			second.remove(second[0])
+	if len(first) == 0:
+		temp += second
+	else:
+		temp += first
+    
+	return temp
 
 
 #main function for mergesort
-def mergesort(Q):
+def mergesort(Q,nlogn_intersection):
+
+
 	#base case - length 0 or 1
-
-
 	if len(Q) == 1 or len(Q) == 0:
         	return Q
+
     	else:
 		mid = len(Q)/2			#divide by two
-
-		print "Q right now is ", Q
-		i = Q[0];
+	
+		print "\n\nQ right now is ", Q
+		i = 1;
 		print "i in mergesort function is ",i
-		j = Q[len(Q)-1];
+		print "m is ",mid
+		j = mid+1;
 		print "j in mergesort function is ",j
+		print "\n\n"
+		
+		
+#		if(len(Q) > 2):
+#			if (i < j):
+#				print "inside i<j ", i,j	
+#				if(Q[i] > Q[j]):
+#					print "Q[i] is ", Q[i],"Q[j] ",Q[j]
+#					print "nlogn_intersection is ",nlogn_intersection
+#					nlogn_intersection += 1;
+#					print "nlogn_intersection is ",nlogn_intersection
 
-       		first = mergesort(Q[:mid])	#recursive call on the mid
-        	second = mergesort(Q[mid:])
+#following the algorithm - lets see what happens
+		for k in range(0,mid):
+			if j>mid:
+				i += 1;
+				print "UPDATING TOTAL from ", nlogn_intersection		
+				nlogn_intersection += 1;
+				print "nlogn_intersection is ",nlogn_intersection
+			elif i > mid:
+				j += 1;
+			elif Q[i] < Q[j]:
+				i += 1;
+				print "UPDATING TOTAL from ", nlogn_intersection		
+				nlogn_intersection += 1;
+				print "nlogn_intersection is ",nlogn_intersection
+			else:
+				j +=1;
+
+       		first = mergesort(Q[:mid],nlogn_intersection)	#recursive call on the mid
+        	second = mergesort(Q[mid:],nlogn_intersection)
         	return combine(first,second)
-
 
 
 
@@ -156,10 +187,10 @@ def main():
 	#write to output function
 	output(intersection);
 
-	
+	nlogn_intersection = 0	
 
 	#nlogn algorithm
-	Q = mergesort(Q);
+	Q = mergesort(Q,nlogn_intersection);
 	print Q
 
 #call main
