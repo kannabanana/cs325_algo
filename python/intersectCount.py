@@ -40,17 +40,21 @@ def n2(P,Q,N,intersection):
 #	print "intersection is ", intersection
 
 	if N == 0:
-		print "base case!"
-		return
+		print "base case! Intersection count is", intersection 
+		return intersection;
 	else:
 		print "not base case!"
 		for i in range(0,N):
 		#Q(i) > Q(N) and P(i) < P(N)		
 			if(Q[i] > Q[N]):
 				if(P[i] < P[N]):
-					print "going to update intersection"
-					++intersection;
+					print "going to update intersection from", intersection
+					#++intersection; omg python doesn't let me do this
+					intersection += 1;
+					print "intersection is now", intersection
 		return n2(P,Q,N-1,intersection);
+
+
 
 
 
@@ -64,12 +68,14 @@ def main():
 
 	#assign them to values
 	N = temp[0];
+	N = int(N);			#convert N from str to int
 	P = temp[1];
 	Q = temp[2];	
 	
 
-#n2 algorithm
-	n2(P,Q,N,intersection);
-#	print "The number of intersections is ", intersection
+
+	#n2 algorithm
+	intersection = n2(P,Q,N,intersection);
+	print "The number of intersections is ", intersection
 #call main
 main()
