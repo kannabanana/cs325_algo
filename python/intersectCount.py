@@ -77,6 +77,9 @@ def n2(P,Q,N,intersection):
 		return n2(P,Q,N-1,intersection);
 
 
+
+
+
 #combine the two arrays
 def combine(first,second):
     temp = []		#empty list
@@ -96,16 +99,30 @@ def combine(first,second):
     return temp
 
 
+
+
 #main function for mergesort
 def mergesort(Q):
 	#base case - length 0 or 1
+
+
 	if len(Q) == 1 or len(Q) == 0:
         	return Q
     	else:
 		mid = len(Q)/2			#divide by two
+
+		print "Q right now is ", Q
+		i = Q[0];
+		print "i in mergesort function is ",i
+		j = Q[len(Q)-1];
+		print "j in mergesort function is ",j
+
        		first = mergesort(Q[:mid])	#recursive call on the mid
         	second = mergesort(Q[mid:])
         	return combine(first,second)
+
+
+
 
 #function to output to output.txt
 def output(intersection):
@@ -139,10 +156,11 @@ def main():
 	#write to output function
 #	output(intersection);
 
+	
 
 	#nlogn algorithm
 	Q = mergesort(Q);
-
+	print Q
 
 #call main
 main()
