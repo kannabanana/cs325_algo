@@ -1,0 +1,9 @@
+#!/usr/bin/bash
+
+for i in $(seq 1 $1); 
+do
+	python intersectCount.py input"$i".txt > dump"$i".txt
+	echo testing for input"$i".txt
+	cat output.txt
+	echo
+done
