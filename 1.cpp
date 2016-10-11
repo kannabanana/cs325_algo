@@ -200,6 +200,16 @@ void merge(deque<int> &Q, int begin, int middle, int end, int &n_inter)
 	{
 		cout << "k=" << k << " ";
 		cout << "i=" << i << " j=" << j << " Qi=" << Q.at(i) << " Qj=" << Q.at(j);
+		if (Q.at(i) < Q.at(j))
+		{
+			cout << "; insert " << Q.at(i) << " into V";
+			i++;
+		}	
+		else if (Q.at(i) > Q.at(j))
+		{
+			cout << "; insert " << Q.at(j) << " into V";
+			j++;
+		}	
 		cout << endl;
 	}
 	cout << endl;
@@ -268,12 +278,27 @@ void merge(deque<int> &Q, int begin, int middle, int end, int &n_inter)
 	//loop to copy work into real array if really sorting
 }
 
+void tupleMerge(deque<int> &Q, int begin, int end, int &n_inter)
+{
+	if (Q.at(begin) < Q.at(end))
+	{
+		cout << Q.at(begin) << "<" << Q.at(end) << endl;
+	}
+	if (Q.at(begin) > Q.at(end))
+	{
+		cout << Q.at(begin) << ">" << Q.at(end) << endl;
+	}
+}
+
 void mergeSort(deque<int> &Q, int begin, int end, int &n_inter)
 {
 	cout << '\t' << "mergeSort with begin=" << begin << " end=" << end << " Q=";
 	printVector(Q);
 	if ((end - begin) <= 1) //if size of array is 1, don't do anything
-		return; //base case
+	{
+		tupleMerge(Q, begin, end, n_inter);
+		return;
+	}
 	printVector(Q);
 	int middle = (end+begin)/2;
 	mergeSort(Q, begin, middle, n_inter);
