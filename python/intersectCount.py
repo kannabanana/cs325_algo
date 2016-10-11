@@ -139,9 +139,9 @@ def main():
 
 	
 	#n2 algorithm
-#	intersection = n2(P,Q,N-1,intersection);	
+	intersection = n2(P,Q,N-1,intersection);	
 	#write to output function
-#	output(intersection);
+	output(intersection);
 
 	#nlogn algorithm
 	Q = mergesort(Q);

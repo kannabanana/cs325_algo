@@ -1,0 +1,94 @@
+N=7
+2,4,6,7,8,9,10,
+2,5,4,6,7,8,1,
+
+
+N=6
+Q0= 2 & Qn = 1
+check p
+P0= 2 & Qn = 10
+INTERSECTION
+Q1= 5 & Qn = 1
+check p
+P1= 4 & Qn = 10
+INTERSECTION
+Q2= 4 & Qn = 1
+check p
+P2= 6 & Qn = 10
+INTERSECTION
+Q3= 6 & Qn = 1
+check p
+P3= 7 & Qn = 10
+INTERSECTION
+Q4= 7 & Qn = 1
+check p
+P4= 8 & Qn = 10
+INTERSECTION
+Q5= 8 & Qn = 1
+check p
+P5= 9 & Qn = 10
+INTERSECTION
+
+
+N=5
+Q0= 2 & Qn = 8
+Q1= 5 & Qn = 8
+Q2= 4 & Qn = 8
+Q3= 6 & Qn = 8
+Q4= 7 & Qn = 8
+
+
+N=4
+Q0= 2 & Qn = 7
+Q1= 5 & Qn = 7
+Q2= 4 & Qn = 7
+Q3= 6 & Qn = 7
+
+
+N=3
+Q0= 2 & Qn = 6
+Q1= 5 & Qn = 6
+Q2= 4 & Qn = 6
+
+
+N=2
+Q0= 2 & Qn = 4
+Q1= 5 & Qn = 4
+check p
+P1= 4 & Qn = 6
+INTERSECTION
+
+
+N=1
+Q0= 2 & Qn = 5
+Algorithm #1 found # inter = 7
+
+Running merge with begin=1 middle=2 end=3 Q=2,5,4,6,7,8,1,
+Comparing Q1=5 to Q2=4
+intersection found
+Comparing Q2=4 to Q2=4
+
+Running merge with begin=0 middle=1 end=3 Q=2,5,4,6,7,8,1,
+Comparing Q0=2 to Q1=5
+Comparing Q1=5 to Q1=5
+Comparing Q1=5 to Q2=4
+intersection found
+
+Running merge with begin=4 middle=5 end=6 Q=2,5,4,6,7,8,1,
+Comparing Q4=7 to Q5=8
+Comparing Q5=8 to Q5=8
+
+Running merge with begin=3 middle=4 end=6 Q=2,5,4,6,7,8,1,
+Comparing Q3=6 to Q4=7
+Comparing Q4=7 to Q4=7
+Comparing Q4=7 to Q5=8
+
+Running merge with begin=0 middle=3 end=6 Q=2,5,4,6,7,8,1,
+Comparing Q0=2 to Q3=6
+Comparing Q1=5 to Q3=6
+Comparing Q2=4 to Q3=6
+Comparing Q3=6 to Q3=6
+Comparing Q3=6 to Q4=7
+Comparing Q4=7 to Q4=7
+Algorithm #2 found # inter = 2
+outputting to file output.txt the number 2
