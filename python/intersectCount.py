@@ -191,6 +191,7 @@ def main():
 
 	#nlogn algorithm
 	Q = mergesort(Q,nlogn_intersection);
+	output(nlogn_intersection);
 	print Q
 
 #call main
