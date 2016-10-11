@@ -55,11 +55,11 @@ def print_list(Q):
 
 
 def n2(P,Q,N,intersection):
-	print "inside n2 ",
-	print "N is ", N
-	print " P is",P
-	print "Q is ",Q
-	print "intersection is ", intersection
+#	print "inside n2 ",
+#	print "N is ", N
+#	print " P is",P
+#	print "Q is ",Q
+#	print "intersection is ", intersection
 
 	if N == 0:
 		print "base case! Intersection count is", intersection 
@@ -99,10 +99,9 @@ def main():
 	for i in range(0,len(Q)):
 		Q[i] = int(Q[i])
 
-
 	
 	#n2 algorithm
-#	intersection = n2(P,Q,N*2,intersection);
-#	print "The number of intersections is ", intersection
+	intersection = n2(P,Q,N-1,intersection);
+	print "The number of intersections is ", intersection
 #call main
 main()
