@@ -81,9 +81,10 @@ def n2(P,Q,N,intersection):
 
 
 #combine the two arrays
-def combine(first,second,i,j,nlogn_intersection):
-	print "inside combine function i is ",i
-	print "inside combine function j is ",j
+def combine(first,second):
+#	print "inside combine function i is ",i
+#	print "inside combine function j is ",j
+
 	temp = []		#empty list
 
 	#the first and second can't be zero
@@ -99,36 +100,42 @@ def combine(first,second,i,j,nlogn_intersection):
 	else:
 		temp += first
     
-	if (i < j):
-		print "inside i<j ", i,j
-		if(Q[i] > Q[j]):
-			print "Q[i] is ", Q[i],"Q[j] ",Q[j]
-			print "nlogn_intersection is ",nlogn_intersection
-			nlogn_intersection += 1;
-			print "nlogn_intersection is ",nlogn_intersection
 	return temp
 
 
 #main function for mergesort
 def mergesort(Q,nlogn_intersection):
+
+
 	#base case - length 0 or 1
-
-
 	if len(Q) == 1 or len(Q) == 0:
         	return Q
+
     	else:
 		mid = len(Q)/2			#divide by two
-
-#		print "Q right now is ", Q
-		i = Q[0];
-#		print "i in mergesort function is ",i
-		j = Q[mid];
-#		print "j in mergesort function is ",j
+	
+		print "\n\nQ right now is ", Q
+		i = 1;
+		print "i in mergesort function is ",i
+		print "m is ",mid
+		j = mid+1;
+		print "j in mergesort function is ",j
+		print "\n\n"
+		
+		
+		if(len(Q) > 2):
+			if (i < j):
+				print "inside i<j ", i,j	
+				if(Q[i] > Q[j]):
+					print "Q[i] is ", Q[i],"Q[j] ",Q[j]
+					print "nlogn_intersection is ",nlogn_intersection
+					nlogn_intersection += 1;
+					print "nlogn_intersection is ",nlogn_intersection
+		#else:
 
        		first = mergesort(Q[:mid],nlogn_intersection)	#recursive call on the mid
         	second = mergesort(Q[mid:],nlogn_intersection)
-        	return combine(first,second,i,j,nlogn_intersection)
-
+        	return combine(first,second)
 
 
 
