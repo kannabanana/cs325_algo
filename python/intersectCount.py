@@ -32,7 +32,7 @@ def input_listP(text):
 	return P
 
 
-
+#gets vector Q, P from whatever input text we give it
 def input_listQ(text):
 	fo = open(text,"r")
 	master = [10,15,20];
@@ -44,8 +44,6 @@ def input_listQ(text):
 	Q = master[2].split(",") 
 	return Q
 
-#def n2(Q,P,N, intersection):
-	
 
 #test function - wanted to see how python handled functions and lists
 def print_list(Q):
@@ -53,7 +51,7 @@ def print_list(Q):
 	return
 
 
-
+#n2 algorithm (compares Q[i] > Q[n] && P[i] < P[n])
 def n2(P,Q,N,intersection):
 #	print "inside n2 ",
 #	print "N is ", N
@@ -98,8 +96,6 @@ def combine(first,second):
     return temp
 
 
-
-
 #main function for mergesort
 def mergesort(Q):
 	#base case - length 0 or 1
@@ -111,10 +107,10 @@ def mergesort(Q):
         	second = mergesort(Q[mid:])
         	return combine(first,second)
 
-
+#function to output to output.txt
 def output(intersection):
 #	print "in output the intersetemption is ", intersection
-	fo = open("output.txt","w+")
+	fo = open("output.txt","w+")		#will create output.txt if it doesn't exist
 	fo.write(str(intersection))
 
 
@@ -143,11 +139,10 @@ def main():
 	#write to output function
 #	output(intersection);
 
+
 	#nlogn algorithm
 	Q = mergesort(Q);
-	print Q;
 
-	P = mergesort(P);
-	print P;
+
 #call main
 main()
