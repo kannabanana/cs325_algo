@@ -81,28 +81,36 @@ def n2(P,Q,N,intersection):
 
 
 #combine the two arrays
-def combine(first,second):
-    temp = []		#empty list
+def combine(first,second,i,j,nlogn_intersection):
+	print "inside combine function i is ",i
+	print "inside combine function j is ",j
+	temp = []		#empty list
 
 	#the first and second can't be zero
-    while len(first) != 0 and len(second) != 0:
-        if first[0] < second[0]:
-            temp.append(first[0])
-            first.remove(first[0])
-        else:
-            temp.append(second[0])
-            second.remove(second[0])
-    if len(first) == 0:
-        temp += second
-    else:
-        temp += first
-    return temp
-
-
+	while len(first) != 0 and len(second) != 0:
+		if first[0] < second[0]:
+			temp.append(first[0])
+			first.remove(first[0])
+		else:
+			temp.append(second[0])
+			second.remove(second[0])
+	if len(first) == 0:
+		temp += second
+	else:
+		temp += first
+    
+	if (i < j):
+		print "inside i<j ", i,j
+		if(Q[i] > Q[j]):
+			print "Q[i] is ", Q[i],"Q[j] ",Q[j]
+			print "nlogn_intersection is ",nlogn_intersection
+			nlogn_intersection += 1;
+			print "nlogn_intersection is ",nlogn_intersection
+	return temp
 
 
 #main function for mergesort
-def mergesort(Q):
+def mergesort(Q,nlogn_intersection):
 	#base case - length 0 or 1
 
 
@@ -111,15 +119,15 @@ def mergesort(Q):
     	else:
 		mid = len(Q)/2			#divide by two
 
-		print "Q right now is ", Q
+#		print "Q right now is ", Q
 		i = Q[0];
-		print "i in mergesort function is ",i
-		j = Q[len(Q)-1];
-		print "j in mergesort function is ",j
+#		print "i in mergesort function is ",i
+		j = Q[mid];
+#		print "j in mergesort function is ",j
 
-       		first = mergesort(Q[:mid])	#recursive call on the mid
-        	second = mergesort(Q[mid:])
-        	return combine(first,second)
+       		first = mergesort(Q[:mid],nlogn_intersection)	#recursive call on the mid
+        	second = mergesort(Q[mid:],nlogn_intersection)
+        	return combine(first,second,i,j,nlogn_intersection)
 
 
 
@@ -156,10 +164,10 @@ def main():
 	#write to output function
 #	output(intersection);
 
-	
+	nlogn_intersection = 0	
 
 	#nlogn algorithm
-	Q = mergesort(Q);
+	Q = mergesort(Q,nlogn_intersection);
 	print Q
 
 #call main
