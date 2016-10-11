@@ -103,26 +103,28 @@ def combine(first,second):
 	return temp
 
 
+
 #main function for mergesort
 def mergesort(Q,nlogn_intersection):
 
 
 	#base case - length 0 or 1
 	if len(Q) == 1 or len(Q) == 0:
-        	return Q
+   #     	return nlogn_intersection
+		return Q
 
     	else:
 		mid = len(Q)/2			#divide by two
 	
 		print "\n\nQ right now is ", Q
-		i = 1;
+		i = 0;
 		print "i in mergesort function is ",i
 		print "m is ",mid
 		j = mid+1;
 		print "j in mergesort function is ",j
-		print "\n\n"
-		
-		
+		print "\n\n"		
+
+
 #		if(len(Q) > 2):
 #			if (i < j):
 #				print "inside i<j ", i,j	
@@ -132,22 +134,28 @@ def mergesort(Q,nlogn_intersection):
 #					nlogn_intersection += 1;
 #					print "nlogn_intersection is ",nlogn_intersection
 
-#following the algorithm - lets see what happens
+
+
+
+#following the algorithm - lets see what happens (follow the yellow brick road)
 		for k in range(0,mid):
+#			if Q[j]>Q[mid]:
 			if j>mid:
 				i += 1;
-				print "UPDATING TOTAL from ", nlogn_intersection		
+				print "upated nlogn from ",nlogn_intersection
 				nlogn_intersection += 1;
-				print "nlogn_intersection is ",nlogn_intersection
-			elif i > mid:
+				print "updated nlogn_intersection is ",nlogn_intersection
+#			elif Q[i] > Q[mid]:
+			elif i>mid:
 				j += 1;
 			elif Q[i] < Q[j]:
 				i += 1;
-				print "UPDATING TOTAL from ", nlogn_intersection		
+				print "UPDATING TOTAL because Q[i]<Q[j]",Q[i],Q[j],nlogn_intersection		
 				nlogn_intersection += 1;
-				print "nlogn_intersection is ",nlogn_intersection
+				print "updated nlogn_intersection is ",nlogn_intersection
 			else:
 				j +=1;
+
 
        		first = mergesort(Q[:mid],nlogn_intersection)	#recursive call on the mid
         	second = mergesort(Q[mid:],nlogn_intersection)
@@ -183,16 +191,21 @@ def main():
 
 	
 	#n2 algorithm
-	intersection = n2(P,Q,N-1,intersection);	
+#	intersection = n2(P,Q,N-1,intersection);	
 	#write to output function
-	output(intersection);
+#	output(intersection);
 
 	nlogn_intersection = 0	
 
 	#nlogn algorithm
+#	nlogn_intersection = mergesort(Q,nlogn_intersection);
+#	print "after running mergesort nlogn_intersection count is ", nlogn_intersection
+	
 	Q = mergesort(Q,nlogn_intersection);
-	output(nlogn_intersection);
 	print Q
+
+#	output(nlogn_intersection);
+#	print Q
 
 #call main
 main()
