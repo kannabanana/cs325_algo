@@ -79,8 +79,41 @@ def n2(P,Q,N,intersection):
 		return n2(P,Q,N-1,intersection);
 
 
+#combine the two arrays
+def combine(first,second):
+    temp = []		#empty list
+
+	#the first and second can't be zero
+    while len(first) != 0 and len(second) != 0:
+        if first[0] < second[0]:
+            temp.append(first[0])
+            first.remove(first[0])
+        else:
+            temp.append(second[0])
+            second.remove(second[0])
+    if len(first) == 0:
+        temp += second
+    else:
+        temp += first
+    return temp
+
+
+
+
+#main function for mergesort
+def mergesort(Q):
+	#base case - length 0 or 1
+	if len(Q) == 1 or len(Q) == 0:
+        	return Q
+    	else:
+		mid = len(Q)/2			#divide by two
+       		first = mergesort(Q[:mid])	#recursive call on the mid
+        	second = mergesort(Q[mid:])
+        	return combine(first,second)
+
+
 def output(intersection):
-#	print "in output the intersection is ", intersection
+#	print "in output the intersetemption is ", intersection
 	fo = open("output.txt","w+")
 	fo.write(str(intersection))
 
@@ -106,11 +139,15 @@ def main():
 
 	
 	#n2 algorithm
-	intersection = n2(P,Q,N-1,intersection);
-	
-	
+#	intersection = n2(P,Q,N-1,intersection);	
 	#write to output function
-	output(intersection);
+#	output(intersection);
 
+	#nlogn algorithm
+	Q = mergesort(Q);
+	print Q;
+
+	P = mergesort(P);
+	print P;
 #call main
 main()
