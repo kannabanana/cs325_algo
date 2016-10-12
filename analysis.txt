@@ -5,6 +5,7 @@
 
 ANALYSIS OF ALGORITHMS PRESENTED
 
+**********************************************************
 First algorithm: name n2
 
 Description
@@ -35,43 +36,60 @@ value of N). The algorithm can shrink N becuase it is
 uneccessary to compare Pi values to PN when i>n as we
 can say that Pi > PN if i > N (P is sorted).
 
+Runtime
+##########################################################
+
 This algorithm is O(N^2) time; all lines other than the
 for loop on line 67 and the recursive call on line 77
 have runtime O(1). The for loop has runtime of O(N), and
 the recursive call performs this O(N) loop on each of the
 N elements of Q, so the algorithm is O(N^2).
 
+Proof of Correctness
+##########################################################
 
+The proof is inductive. The base case is where P and Q
+contain one element; there are no interections to find and
+so we have found all possible intersections.
 
+The inductive hypothesis is that, for any lists P and Q
+of size <= N, the number of intersections has been correctly
+counted for lines between each (Pi, Qi) for 0 <= i < N.
 
-#n2 algorithm (compares Q[i] > Q[n] && P[i] < P[n])
-def n2(P,Q,N,intersection):
-#	print "inside n2 ",
-#	print "N is ", N
-#	print " P is",P
-#	print "Q is ",Q
-#	print "intersection is ", intersection
+For lists P' and Q', each with size N, prove that the algorthm
+will correctly find all intersections. For the pairs (Pi, Qi)
+for 0 <= i < N, the inductive hypothesis states that all
+intersections will be correctly found. Then we must find all
+intersections between (PN, QN) and each (Pi, Qi) for 
+0 <= i < N. The algorithm checks each (Pi, Qi) against
+(PN, QN) to see if an intersection exists.
 
-	if N == 0:
-#		print "base case! Intersection count is", intersection 
-		return intersection;
-	else:
-#		print "not base case!"
-		for i in range(0,N):
-		#Q(i) > Q(N) and P(i) < P(N)		
-			if(Q[i] > Q[N]):
-#				print "Q[i] is ",Q[i],"Q[N] is ", Q[N]
-				if(P[i] < P[N]):
-#					print "P[i] is ", P[i],"P[N] is ",P[N]
-#					print "going to update intersection from", intersection
-					#++intersection; omg python doesn't let me do this
-					intersection += 1;
-#					print "intersection is now", intersection
-		return n2(P,Q,N-1,intersection);
+It does this by checking if Qi > QN for Pi < PN; if this
+inequality is true, there is an intersection. This checking
+process finds all intersections between the line connecting
+PN and QN with the lines connecting all Pi, Qi with
+0 <= i < N.
 
+Since the rest of the intersections are given by the inductive
+hypothesis, any lists P, Q will have all intersections
+found by the algorithm.
 
+**********************************************************
+Second algorithm: name mergeSort
 
+Description
+##########################################################
 
+The algorithm is based on a traditional implementation of
+mergeSort, and its essential operations are the same. It 
+recursively divides lists in half, and operates on the
+resulting two lists of half size. When the size of a list
+is <= 1, the recursion stops.
+
+It then proceeds through the recursive lists, comparing 
+progressive items of each sublist and inserting the smaller.
+However, the algorithm also uses this information to find
+intersections with the aforementioned method    
 
 #combine the two arrays
 def combine(first,second):
