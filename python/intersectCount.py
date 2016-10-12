@@ -85,8 +85,6 @@ def combine(first,second):
 
 	fo = open("output.txt","r")
 	nlogn_intersection = fo.readline()
-	print "nlogn_intersection inside COMBINE FUNCTION ",nlogn_intersection
-				
 
 	temp = []		#empty list
 
@@ -110,45 +108,46 @@ def combine(first,second):
 #main function for mergesort
 def mergesort(Q):
 
+
 	#base case - length 0 or 1
 	if len(Q) == 1 or len(Q) == 0:
    #     	return nlogn_intersection
 		return Q
-
-    	else:
+    	
+	else:
+		print "\n\n"
+		print "starting mergesort, Q=",Q
 		mid = len(Q)/2			#divide by two
-
-		print "the length of Q is ",len(Q)	
-		print "\n\nQ right now is ", Q
 		i = 0;
-		print "i in mergesort function is ",i
-		print "m is ",mid
+		print "i=",i
+		print "mid=",mid
 		j = mid+1;
-		print "j in mergesort function is ",j
-		print "\n\n"		
-
-
-
+		z = mid;
+		print "j=",j
 #following the algorithm - lets see what happens (follow the yellow brick road)
 		for k in range(0,mid):
-#			if Q[j]>Q[mid]:
-			if j>mid:
+			print ("i=%s z=%s j=%s" % (i, z, j))
+			print ("Qi=%s Qz=%s" % (Q[i], Q[z]))
+			if Q[i] > Q[z]:
+				print "INTER FOUND!!!!!!!!!!!!!!!!!!!!!!!!"
+				i += 1;
+			elif j>mid:
 				i += 1;
 			
 				fo = open("output.txt","r")
 				nlogn_intersection = fo.readline()
-			
-				print "FIRST CASE nlogn_intersection is ",nlogn_intersection
-			
+		
 				nlogn_intersection = int(nlogn_intersection)
 				nlogn_intersection += 1;
-				print "updated nlogn_intersection is ",nlogn_intersection
+				print "num_inter NOW SET TO:           ",nlogn_intersection
 
 				output(nlogn_intersection)
+				
 
 			elif i>mid:
 				j += 1;
-		
+				print "wierd case"
+				
 
 #LOL this case never hits
 			elif Q[i] < Q[j]:
@@ -165,7 +164,7 @@ def mergesort(Q):
 
 			else:
 				j +=1;
-
+				print "fall through case"
 
        		first = mergesort(Q[:mid])	#recursive call on the mid
         	second = mergesort(Q[mid:])

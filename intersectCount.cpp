@@ -134,12 +134,87 @@ void outputFile(int n_inter, char* filename)
 
 
 
-
-
-void split(deque<int> &R, int begin, int end, deque<int> &Q)
+deque<int> merge(deque<int> A, int begin, int middle, int end)
 {
-	if ((end - begin) < 2)
-		return;
+
+	cout << "merge with begin=" << begin << " middle=" << middle << " end=" << end << endl;
+
+	deque<int> L; //work arrays
+	deque<int> R;
+
+	deque<int> ret;
+	if (begin+1 == end)
+	{
+		L.push_back(A.at(begin));
+		R.push_back(A.at(end));
+	}
+	else
+	{
+		for (int i = begin; i <= middle; i++)
+			L.push_back(A.at(i));
+		for (int i = middle+1; i <= end; i++)
+			R.push_back(A.at(i));
+	}
+	cout << "L=";
+	printDeque(L);
+	cout << "R=";
+	printDeque(R);
+	
+	int i = begin;
+	int j = middle;
+	while(i < middle && j < end)
+	{
+		if (L.at(i) <= R.at(j))
+		{
+			ret.push_back(L.at(i));
+			i++;
+		}
+		else
+		{
+			ret.push_back(R.at(j));
+			j++;
+		}
+	}
+
+	while (i = middle)
+	{
+		ret.push_back(L.at(i));
+		i++;
+	}
+
+	while (j < end)
+	{
+		ret.push_back(R.at(j));
+		j++;
+	}
+	cout << "ret=";
+	printDeque(ret);
+	return ret;
+}
+
+void mergeSort(deque<int> &Q, int begin, int end)
+{
+	cout << endl;
+	cout << "mergesort with begin=" << begin << " & end=" << end << " arry=";
+	printDeque(Q);
+	if (begin < end)
+	{
+		int mid = (end+begin)/2;
+		/*deque<int> LO;
+		for (int i = begin; i <= mid; i++)
+			LO.push_back(Q.at(i));
+		cout << "LO=";
+		printDeque(LO);
+		deque<int> HI;
+		for (int i = mid+1; i <= end; i++)
+			HI.push_back(Q.at(i));
+		cout << "HI=";
+		printDeque(HI);*/
+		mergeSort(Q, begin, mid);
+		mergeSort(Q, mid+1, end);
+
+		Q = merge(Q, begin, mid, end);
+	}
 }
 
 int main(int argc, char* argv[])
@@ -153,19 +228,15 @@ int main(int argc, char* argv[])
 
 
 	loadVectors(P, Q, N, argv[1]);
-
-//	printDeque(P);
-//	printDeque(Q);
-
+	
 	nsquared(P, Q, N-1, n_inter);
 
 	tmp = n_inter;
 	n_inter = 0;
 
-	deque<int> R;
-	R = Q; //work array for mergeSort
+	mergeSort(Q, 0, Q.size()-1);
 
-	mergeSort(Q, R, Q.size());
+	printDeque(Q);
 
 	cout << "Algorithm #1 found # inter = " << tmp << endl;
 
