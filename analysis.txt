@@ -92,4 +92,40 @@ However, the algorithm also uses this information to find
 intersections with the aforementioned method (where an
 intersection exists if Pi < PN and Qi > QN).  
 
+Essentially, the algorithm is merge sort, but on each comparison
+to merge, the compared points are checked for an intersection.
 
+Runtime
+##########################################################
+
+As with merge sort, this algorithm is O(nlogn) in its runtime
+as the extra comparison is done in O(1) time and thus does not
+affect the runtime of the algorithm.
+
+Proof of Correctness
+##########################################################
+
+Proof is by induction. The base case is with a list of one 
+element each; there are no intersections to find, and indeed
+mergesort does not run. Alternatively, if both P and Q have
+two elements (smallest non-trivial case), mergeSort runs 
+correctly on the two, they are compared and if they
+intersect the intersection is found.
+
+Inductive hypothesis: suppose that the algorithm correctly
+identifies the number of intersections with two lists P'
+and Q' where both P' and Q' contain a number of elements
+less than some N >= 2 [again if N = 1, the case is trivial].
+
+If it can be shown that for P and Q containing N elements,
+the algorithm is proven correct. If P and Q contain N 
+elements, when Q is sorted by mergeSort, it is reduced
+into two sub-arrays which contain N/2 elements each;
+these are each correctly counted for intersections
+by the inductive hypothesis.
+
+As they are rejoined by mergeSort, each of these N elements
+is compared to another by the algorithm. This series of
+comparisons counts the intersections introduced
+by the combination of the two sub-arrays, and thus the
+algorithm correcty counts the number of intersections. 
