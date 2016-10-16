@@ -1,0 +1,16 @@
+Subset Sum:
+	Gives an array and an integer and asks if the elements of the array can be summed to make the values of the integer
+
+check out the table and the code at the end:
+	http://www.youtube.com/watch?v=5td2QH-x5ck
+
+
+	-base case:
+		-zero elemnts in the array - false :(
+		-integer equals zero - true
+
+	-other:
+		-check the elements of the array, zero is always true
+		-and subtract the integer from the value of the array and see if it's bigger than or less
+			-if it's less than, take the value that's already there
+			-if it's not, then or it with the zeroth value, which becomes the new index value
