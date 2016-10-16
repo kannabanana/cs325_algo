@@ -1,0 +1,13 @@
+Edit Distance:
+	-can substitue,edit,delete ->what's the minimum number?
+	-FOOD vs MONEY
+		-space it out, put spaces for insertions at the top, spaces for deletions at bottom and do nothing for substitions
+
+
+	-to find minimum, cut off last column, and recurse
+		-theoretically, it should be the same
+		-look at Jeff Erickson's notes p.9 (copied an image in repo)
+
+
+This video explains the table associated with the dynamic programming alogrithm
+	http://www.youtube.com/watch?v=We3YDTzNXEk
