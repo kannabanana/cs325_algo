@@ -1,0 +1,14 @@
+longest subsequence:
+
+	https://www.youtube.com/watch?v=U-xOVWlcgmM
+	
+
+	Longest subsequence: {1,40,3,8,12} = {1,3,8,12} = |4|
+
+	-via recursion = O(2^n) = ew
+
+	-we use dynamic programming when our usual methods yeild unacceptable results
+
+	-Basically you can find it by saying i is the last element and checking the max until i-1 (which is j). This only works as long j is less than i and the actual value of i and j inside the array is less as well. Continue recursing and you'll end up with the max length of the longest subsequence. 
+
+	-0(n^2) because of two for loops (pretty cool method of counting)
