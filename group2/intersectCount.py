@@ -69,7 +69,8 @@ def n2(P,Q,N,intersection):
 			if(Q[i] > Q[N]):
 #				print "Q[i] is ",Q[i],"Q[N] is ", Q[N]
 				if(P[i] < P[N]):
-#					print "P[i] is ", P[i],"P[N] is ",P[N]
+					#	e:q
+					print "P[i] is ", P[i],"P[N] is ",P[N]
 #					print "going to update intersection from", intersection
 					#++intersection; omg python doesn't let me do this
 					intersection += 1;
