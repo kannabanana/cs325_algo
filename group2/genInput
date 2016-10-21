@@ -3,14 +3,32 @@ echo $2 > input.txt
 
 for ((i = 0; i < $2; i++))
 do
-	echo -n "("$(($RANDOM % $(($1+1))))","$(($RANDOM % $(($1+1))))")," >> input.txt
+	if [ $i -ne 0 ]
+	then
+		echo -n "," >> input.txt
+	fi
+	echo -n "("$(($RANDOM % $(($1+1))))","$(($RANDOM % $(($1+1))))")" >> input.txt
 done
 echo >> input.txt
 
 echo $3 >> input.txt
 for ((i = 0; i < $3; i++))
 do
-	echo -n "("$(($RANDOM % $(($1+1))))","$(($RANDOM % $(($1+1))))")," >> input.txt
+	if [ $i -ne 0 ]
+	then
+		echo -n "," >> input.txt
+	fi
+	echo -n "("$(($RANDOM % $(($1+1))))","$(($RANDOM % $(($1+1))))")" >> input.txt
 done
 echo >> input.txt
 
+echo $4 >> input.txt
+for ((i = 0; i < $4; i++))
+do
+	if [ $i -ne 0 ]
+	then
+		echo -n "," >> input.txt
+	fi
+	echo -n $(($RANDOM % $(($1+1)))) >> input.txt
+done
+echo >> input.txt
