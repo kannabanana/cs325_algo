@@ -1,0 +1,16 @@
+#!/bin/bash
+echo $2 > input.txt
+
+for ((i = 0; i < $2; i++))
+do
+	echo -n "("$(($RANDOM % $(($1+1))))","$(($RANDOM % $(($1+1))))")," >> input.txt
+done
+echo >> input.txt
+
+echo $3 >> input.txt
+for ((i = 0; i < $3; i++))
+do
+	echo -n "("$(($RANDOM % $(($1+1))))","$(($RANDOM % $(($1+1))))")," >> input.txt
+done
+echo >> input.txt
+
