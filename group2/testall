@@ -1,9 +1,9 @@
 #!/usr/bin/bash
 
-for i in 1 2 3 4 5;
+for i in 1 2 3 4;
 do
+	echo "differences in output for file $i:"
 	cp -f ./test2/$i/input.txt .
 	python jump.py input.txt
-	diff -y output.txt ./test2/$i/output.txt
-	echo
+	diff -yq output.txt ./test2/$i/output.txt
 done
