@@ -100,6 +100,15 @@ def output(num):
 #main
 def main():
 
+	#types are all good!
+#	print "M ", M, "type ",type(M)
+#	print "P ",P, "type " ,type(P),P[1][0]
+#	print "N ",N,"type " ,type(N)
+#	print "Q ",Q,"type " , type(Q), type(Q[0])
+#	print "T ",T,"type ", type(T)
+#	print "L ",L,"type ",type(L), type (L[0])
+
+
 
 	#read number takes line number from input.txt, num/list and file to read from
 	M = read_num(1,0,sys.argv[1]);
@@ -116,25 +125,23 @@ def main():
 	L.sort()				#sort the leases in increasing order
 
 
-
-	#types are all good!
-#	print "M ", M, "type ",type(M)
-#	print "P ",P, "type " ,type(P),P[1][0]
-#	print "N ",N,"type " ,type(N)
-#	print "Q ",Q,"type " , type(Q), type(Q[0])
-#	print "T ",T,"type ", type(T)
-#	print "L ",L,"type ",type(L), type (L[0])
-
-
+	#get the smallest possible leash
 	val = DP(P,0,Q,0)
 
-	checker = 0
-	for x in range(0,len(L):
-		checker = L[x]
-		if val == checker:		#the list contains 
-			break
-				
+
+	#check the best possible match in the function
 		
+
+	#sorted
+	#check if it's the value
+	#if it's bigger than the value, then it's the new value
+
+	for x in range(0,len(L)):
+		if L[x] == val:
+			break	
+		elif L[x] > val:
+			val = L[x]
+			break
 	output(val)		#write to output.txt the leash length
 
 main()
