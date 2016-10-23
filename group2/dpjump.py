@@ -76,16 +76,13 @@ def J(P,i,Q,j,l):
 #dynamic programming solution
 def DP(P,i,Q,j):
 
-	if i >= len(P) and j >= len(Q):					 #if BOTH are finished, a path exists
-		return i
+	if i >= len(P) and j >= len(Q):
+		return 
 
-	elif i >= len(P):						 #if one is finished but not other, then try another path
-		return 0
+	dist = math.sqrt(pow((P[i][0]-Q[j][0]),2)+pow((P[i][1]-Q[j][1]),2))
 
-	elif j >= len(Q):
-		return 0
-
-	return 1+min(DP(P,i+1,Q,j),						#min because you're trying to find the minimum leash length
+	return dist+min(
+		 DP(P,i+1,Q,j),						#min because you're trying to find the minimum leash length
 	 	 DP(P,i,Q,j+1),
 		 DP(P,i+1,Q,j+1)
 		)
@@ -135,7 +132,7 @@ def main():
 	#sorted
 	#check if it's the value
 	#if it's bigger than the value, then it's the new value
-
+	print "the original value is ", val
 	for x in range(0,len(L)):
 		if L[x] == val:
 			break	
