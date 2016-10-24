@@ -65,33 +65,72 @@ def J(P,i,Q,j,l):
 	
 	return False #if no possible path returns true
 
-def dynamicJ(P,i,Q,j,shortest):
-	print("dynamicJ; i=%s j=%s" % (i, j))
+def dynamicJ(P,i,Q,j,l):
+	print("DYANAMICJ: I=%s J=%s" % (i,j))
+	#base cases: if we're at the end, return the shortest path value.
+	if i >= len(P) and j >= len(Q):
+		print("frogs done jumping. shortest value %s returned" % (shortest))
+		return True
+	elif i >= len(P):#P is finished, not Q
+		return False  #go back and check the rest
+	elif j >= len(Q):#same with Q finished not P
+		return False
+
+	#calculate distance between two given points
+	dist = math.sqrt(pow((P[i][0]-Q[j][0]),2)+pow((P[i][1]-Q[j][1]),2))
+	print("distance between (%s,%s) and (%s,%s)=%s" % (P[i][0],P[i][1],Q[j][0],Q[j][1],dist))
+	intcdist = int(math.ceil(dist))
+	print("itegered and ceilinged distance is %s" % (intcdist)) 
+
+	if intcdist > shortest:
+		print("distance is > shortest distance so far, %s" % (shortest))
+		return False
+	else:
+		print("@@@@ replacing shortest distance with %s" % (intcdist))
+		shortest = intcdist
+
+	valB = dynamicJ(P,i+1,Q,j+1,shortest)
+	print("result of dynamicJ with both jump = %s" % (valB))
+	if valB == True:
+		return True
+	valP = dynamicJ(P,i+1,Q,j,shortest)
+	print("result of dynamicJ with P jump = %s" % (valP))
+	if valP == True:
+		return True
+	valQ = dynamicJ(P,i,Q,j+1,shortest)
+	print("result of dynamicJ with Q jump = %s" % (valQ))
+	if valQ == True:
+		return True
+	print("comparing %s %s %s %s" % (shortest, valP, valQ, valB))
+
+	return False
+
+#	print("dynamicJ; i=%s j=%s" % (i, j))
 	#normal memoization is just keeping track of shortest, not returning minimum
-	print("shortest=%s" % (shortest))
-	if i >= len(P) and j >= len(Q): #if BOTH are finished, a path exists
-		return shortest
-	elif i >= len(P): #if one is finished but not other, then try another path
-		return 2380 
-	elif j >= len(Q):
-		return 2380
+#	print("shortest=%s" % (shortest))
+#	if i >= len(P) and j >= len(Q): #if BOTH are finished, a path exists
+#		return shortest
+#	elif i >= len(P): #if one is finished but not other, then try another path
+#		return 2380 
+#	elif j >= len(Q):
+#		return 2380
 
-	print("PRE: shortest=%s" % (shortest))
-	dist = math.ceil(math.sqrt(pow((P[i][0]-Q[j][0]),2)+pow((P[i][1]-Q[j][1]),2)))
-	print("dist=%s" % (dist))
-	if (dist > shortest):
-		return shortest
-	jumpP = dynamicJ(P,i+1,Q,j,shortest)
-	print("jumpP=%s" % (jumpP))
-	jumpQ = dynamicJ(P,i,Q,j+1,shortest)
-	print("jumpQ=%s" % (jumpQ))
-	jumpB = dynamicJ(P,i+1,Q,j+1,shortest)
-	print("jumpB=%s" % (jumpB))
+#	print("PRE: shortest=%s" % (shortest))
+#	dist = math.ceil(math.sqrt(pow((P[i][0]-Q[j][0]),2)+pow((P[i][1]-Q[j][1]),2)))
+#	print("dist=%s" % (dist))
+#	if (dist > shortest):
+#		return shortest
+#	jumpP = dynamicJ(P,i+1,Q,j,shortest)
+#	print("jumpP=%s" % (jumpP))
+#	jumpQ = dynamicJ(P,i,Q,j+1,shortest)
+#	print("jumpQ=%s" % (jumpQ))
+#	jumpB = dynamicJ(P,i+1,Q,j+1,shortest)
+#	print("jumpB=%s" % (jumpB))
 
-	shortest = min([dist, jumpP, jumpQ, jumpB, shortest])
-	print("@@@@ POST: shortest=%s" % (shortest))
-	print("")
-	return shortest
+#	shortest = min([dist, jumpP, jumpQ, jumpB, shortest])
+#	print("@@@@ POST: shortest=%s" % (shortest))
+#	print("")
+#	return shortest
 
 def output(num):
 	fo = open("output.txt","w+")
@@ -112,7 +151,7 @@ def main():
 	#1000 maximum possible value, so maximum possible distance is
 	#sqrt((-1000-1000)^2+(-1000+1000)^2)=2828. Algo will count
 	#any path found as shorter than this making it a good starting point
-	print("overasll shortest = %s" % (val))
+	print("overall shortest = %s" % (val))
 
 	output(val)
 main()
