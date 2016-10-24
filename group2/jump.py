@@ -64,6 +64,39 @@ def J(P,i,Q,j,l):
 	
 	return False #if no possible path returns true
 
+def memoizedJ(P,i,Q,j,l,memo):
+	
+	#check if we're at a pair that's already in memo
+
+	for k in range(0,len(memo)):
+		if memo[k] == [i,j]:
+			print("found one! memo[%s] = %s, i=%s j=%s" % (k, memo[k], i, j))
+
+	if i >= len(P) and j >= len(Q): #if BOTH are finished, a path exists
+		return True
+	elif i >= len(P): #if one is finished but not other, then try another path
+		return False
+	elif j >= len(Q):
+		return False
+	
+	dist = math.sqrt(pow((P[i][0]-Q[j][0]),2)+pow((P[i][1]-Q[j][1]),2))
+	if math.ceil(dist) > l:
+		#add current i,j pair to memo list
+		memo.append([i,j])
+		#print("dist between %s and %s is %s, > %s" % (P[i], Q[j], dist, l))
+		print("adding [%s,%s]" % (i,j))
+		return False
+
+	if memoizedJ(P,i+1,Q,j,l,memo) == True:
+		return True
+	elif memoizedJ(P,i,Q,j+1,l,memo) == True:
+		return True
+	elif memoizedJ(P,i+1,Q,j+1,l,memo) == True:
+		return True
+	
+	return False #if no possible path returns true
+
+
 def output(num):
 	fo = open("output.txt","w+")
 	fo.write(str(num))
@@ -85,12 +118,25 @@ def main():
 	L.sort()
 	#print("L=%s" % (L))
 
-	for i in range(0,T):
+#	for i in range(0,T):
 		#print("i=%s" % (i))
-		val = J(P,0,Q,0,L[i])
+#		val = J(P,0,Q,0,L[i])
 		#print("%s=%s" % (L[i], val))
+#		if val == True:
+#			output(L[i])
+#			break
+
+	#memoized algorithm: needs memo array to begin with
+	
+	for i in range(0,T):
+		print("running memJ")
+		memo = [];
+		print(len(memo))
+		val = memoizedJ(P,0,Q,0,L[i],memo)
+		print(memo)
 		if val == True:
 			output(L[i])
 			break
+		
 
 main()
