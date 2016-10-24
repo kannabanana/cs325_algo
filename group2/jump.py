@@ -65,11 +65,41 @@ def J(P,i,Q,j,l):
 	
 	return False #if no possible path returns true
 
+
+def memoJ(P,i,Q,j,l,memo):
+	for k in range(0,len(memo)):
+		if memo[k] == [i, j]:
+			print("gotem")
+			return False
+	
+	if i >= len(P) and j >= len(Q):
+		return True
+	elif i >= len(P):#P is finished, not Q
+		return False  #go back and check the rest
+	elif j >= len(Q):#same with Q finished not P
+		return False
+
+	
+	dist = int(math.ceil(math.sqrt(pow((P[i][0]-Q[j][0]),2)+pow((P[i][1]-Q[j][1]),2))))
+	print("dist=%s" % (dist))
+	if dist > l:
+		memo.append([i,j])
+		print("memo=%s" % (memo))
+		return False
+
+	if memoJ(P,i+1,Q,j,l,memo) == True:
+		return True
+	if memoJ(P,i,Q,j+1,l,memo) == True:
+		return True
+	if memoJ(P,i+1,Q,j+1,l,memo) == True:
+		return True
+
+	return False
+
 def dynamicJ(P,i,Q,j,l):
 	print("DYANAMICJ: I=%s J=%s" % (i,j))
 	#base cases: if we're at the end, return the shortest path value.
 	if i >= len(P) and j >= len(Q):
-		print("frogs done jumping. shortest value %s returned" % (shortest))
 		return True
 	elif i >= len(P):#P is finished, not Q
 		return False  #go back and check the rest
@@ -147,11 +177,17 @@ def main():
 	L = read_num(6,T,sys.argv[1]);
 	L.sort()
 	
-	val = dynamicJ(P,0,Q,0,2830) 
+#	val = dynamicJ(P,0,Qi,0,2830) 
 	#1000 maximum possible value, so maximum possible distance is
 	#sqrt((-1000-1000)^2+(-1000+1000)^2)=2828. Algo will count
 	#any path found as shorter than this making it a good starting point
-	print("overall shortest = %s" % (val))
+#	print("overall shortest = %s" % (val))
 
-	output(val)
+	for x in range(0,T):
+		print("memo")
+		memo = []
+		memoJ(P,0,Q,0,L[x],memo)
+
+#	output(val)
+
 main()
