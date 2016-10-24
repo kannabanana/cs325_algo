@@ -65,37 +65,24 @@ def J(P,i,Q,j,l):
 	
 	return False #if no possible path returns true
 
-def memoizedJ(P,i,Q,j,l,memo):
-	
-	#check if we're at a pair that's already in memo
-
-	for k in range(0,len(memo)):
-		if memo[k] == [i,j]:
-			print("found one! memo[%s] = %s, i=%s j=%s" % (k, memo[k], i, j))
+def dynamicJ(P,i,Q,j,shortest):
+	#normal memoization is just keeping track of shortest, not returning minimum
 
 	if i >= len(P) and j >= len(Q): #if BOTH are finished, a path exists
-		return True
+		return shortest
 	elif i >= len(P): #if one is finished but not other, then try another path
-		return False
+		return 2830 
 	elif j >= len(Q):
-		return False
-	
-	dist = math.sqrt(pow((P[i][0]-Q[j][0]),2)+pow((P[i][1]-Q[j][1]),2))
-	if math.ceil(dist) > l:
-		#add current i,j pair to memo list
-		memo.append([i,j])
-		#print("dist between %s and %s is %s, > %s" % (P[i], Q[j], dist, l))
-		print("adding [%s,%s]" % (i,j))
-		return False
+		return 2830
 
-	if memoizedJ(P,i+1,Q,j,l,memo) == True:
-		return True
-	elif memoizedJ(P,i,Q,j+1,l,memo) == True:
-		return True
-	elif memoizedJ(P,i+1,Q,j+1,l,memo) == True:
-		return True
-	
-	return False #if no possible path returns true
+	dist = math.sqrt(pow((P[i][0]-Q[j][0]),2)+pow((P[i][1]-Q[j][1]),2))
+	jumpP = dynamicJ(P,i+1,Q,j,shortest)
+	jumpQ = dynamicJ(P,i,Q,j+1,shortest)
+	jumpB = dynamicJ(P,i+1,Q,j+1,shortest)
+
+	shortest = min([dist, jumpP, jumpQ, jumpB, shortest])
+
+	return shortest
 
 def output(num):
 	fo = open("output.txt","w+")
@@ -103,40 +90,20 @@ def output(num):
 
 def main():
 	M = read_num(1,0,sys.argv[1]);
-	#print("m=%s" % (M))
 	P = [[0 for x in range(2)] for y in range(0,M)]
 	P = read_num(2,M,sys.argv[1]);
-	#print("P=%s" % (P))
 	N = read_num(3,0,sys.argv[1]);
-	#print("n=%s" % (N))
 	Q = [[0 for x in range(2)] for y in range(0,N)]
 	Q = read_num(4,N,sys.argv[1]);
-	#print("Q=%s" % (Q))
 	T = read_num(5,0,sys.argv[1]);
-	#print("t=%s" % (T))
 	L = read_num(6,T,sys.argv[1]);
 	L.sort()
-	#print("L=%s" % (L))
-
-#	for i in range(0,T):
-		#print("i=%s" % (i))
-#		val = J(P,0,Q,0,L[i])
-		#print("%s=%s" % (L[i], val))
-#		if val == True:
-#			output(L[i])
-#			break
-
-	#memoized algorithm: needs memo array to begin with
 	
-	for i in range(0,T):
-		print("running memJ")
-		memo = [];
-		print(len(memo))
-		val = memoizedJ(P,0,Q,0,L[i],memo)
-		print(memo)
-		if val == True:
-			output(L[i])
-			break
-		
+	val = dynamicJ(P,0,Q,0,2830) 
+	#1000 maximum possible value, so maximum possible distance is
+	#sqrt((-1000-1000)^2+(-1000+1000)^2)=2828. Algo will count
+	#any path found as shorter than this making it a good starting point
+	print(val)
 
+	output(val)
 main()
