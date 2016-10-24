@@ -2,9 +2,10 @@ import os;
 import sys;
 import re;
 import math;
+import random;
 
-def read_num(idx, length):
-	fo = open("input.txt", "r")
+def read_num(idx, length,text):
+	fo = open(text, "r")
 	A = [[0 for x in range(2)] for y in range (0,length)]
 	#print("len=%s" % (length))
 	if idx % 2 == 0 and idx != 6:
@@ -96,25 +97,24 @@ def memoizedJ(P,i,Q,j,l,memo):
 	
 	return False #if no possible path returns true
 
-
 def output(num):
 	fo = open("output.txt","w+")
 	fo.write(str(num))
 
 def main():
-	M = read_num(1,0);
+	M = read_num(1,0,sys.argv[1]);
 	#print("m=%s" % (M))
 	P = [[0 for x in range(2)] for y in range(0,M)]
-	P = read_num(2,M);
+	P = read_num(2,M,sys.argv[1]);
 	#print("P=%s" % (P))
-	N = read_num(3,0);
+	N = read_num(3,0,sys.argv[1]);
 	#print("n=%s" % (N))
 	Q = [[0 for x in range(2)] for y in range(0,N)]
-	Q = read_num(4,N);
+	Q = read_num(4,N,sys.argv[1]);
 	#print("Q=%s" % (Q))
-	T = read_num(5,0);
+	T = read_num(5,0,sys.argv[1]);
 	#print("t=%s" % (T))
-	L = read_num(6,T);
+	L = read_num(6,T,sys.argv[1]);
 	L.sort()
 	#print("L=%s" % (L))
 
