@@ -66,22 +66,31 @@ def J(P,i,Q,j,l):
 	return False #if no possible path returns true
 
 def dynamicJ(P,i,Q,j,shortest):
+	print("dynamicJ; i=%s j=%s" % (i, j))
 	#normal memoization is just keeping track of shortest, not returning minimum
-
+	print("shortest=%s" % (shortest))
 	if i >= len(P) and j >= len(Q): #if BOTH are finished, a path exists
 		return shortest
 	elif i >= len(P): #if one is finished but not other, then try another path
-		return 2830 
+		return 2380 
 	elif j >= len(Q):
-		return 2830
+		return 2380
 
-	dist = math.sqrt(pow((P[i][0]-Q[j][0]),2)+pow((P[i][1]-Q[j][1]),2))
+	print("PRE: shortest=%s" % (shortest))
+	dist = math.ceil(math.sqrt(pow((P[i][0]-Q[j][0]),2)+pow((P[i][1]-Q[j][1]),2)))
+	print("dist=%s" % (dist))
+	if (dist > shortest):
+		return shortest
 	jumpP = dynamicJ(P,i+1,Q,j,shortest)
+	print("jumpP=%s" % (jumpP))
 	jumpQ = dynamicJ(P,i,Q,j+1,shortest)
+	print("jumpQ=%s" % (jumpQ))
 	jumpB = dynamicJ(P,i+1,Q,j+1,shortest)
+	print("jumpB=%s" % (jumpB))
 
 	shortest = min([dist, jumpP, jumpQ, jumpB, shortest])
-
+	print("@@@@ POST: shortest=%s" % (shortest))
+	print("")
 	return shortest
 
 def output(num):
@@ -103,7 +112,7 @@ def main():
 	#1000 maximum possible value, so maximum possible distance is
 	#sqrt((-1000-1000)^2+(-1000+1000)^2)=2828. Algo will count
 	#any path found as shorter than this making it a good starting point
-	print(val)
+	print("overasll shortest = %s" % (val))
 
 	output(val)
 main()
