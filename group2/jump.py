@@ -66,125 +66,69 @@ def J(P,i,Q,j,l):
 	return False #if no possible path returns true
 
 
-def memoJ(P,i,Q,j,l,memo):
-	for k in range(0,len(memo)):
-		if memo[k] == [i, j]:
-			print("gotem: %s" % (memo[k]))
-			return False
-	
-	if i >= len(P) and j >= len(Q):
+def memoJ(P,i,Q,j,L,memo):
+	if i >= len(P) and j >= len(Q): #if BOTH are finished, a path exists
+		#print("reached end without violating conditions")
 		return True
-	elif i >= len(P):#P is finished, not Q
-		return False  #go back and check the rest
-	elif j >= len(Q):#same with Q finished not P
+	elif i >= len(P): #if one is finished but not other, then try another path
 		return False
-
+	elif j >= len(Q):
+		return False
 	
+	print("@@ i=%s j=%s" % (i,j))
+	print("L currently %s" % (L))
+	print("memo currently %s" % (memo))
 	dist = int(math.ceil(math.sqrt(pow((P[i][0]-Q[j][0]),2)+pow((P[i][1]-Q[j][1]),2))))
-	#print("dist=%s" % (dist))
-	if dist > l:
-		memo.append([i,j])
-		print("memo=%s" % (memo))
-		return False
-
-	if memoJ(P,i+1,Q,j,l,memo) == True:
-		return True
-	if memoJ(P,i,Q,j+1,l,memo) == True:
-		return True
-	if memoJ(P,i+1,Q,j+1,l,memo) == True:
-		return True
-
-	return False
-
-def dynamicJ(P,i,Q,j,l):
-	print("DYANAMICJ: I=%s J=%s" % (i,j))
-	#base cases: if we're at the end, return the shortest path value.
-	if i >= len(P) and j >= len(Q):
-		return True
-	elif i >= len(P):#P is finished, not Q
-		return False  #go back and check the rest
-	elif j >= len(Q):#same with Q finished not P
-		return False
-
-	#calculate distance between two given points
-	dist = math.sqrt(pow((P[i][0]-Q[j][0]),2)+pow((P[i][1]-Q[j][1]),2))
-	print("distance between (%s,%s) and (%s,%s)=%s" % (P[i][0],P[i][1],Q[j][0],Q[j][1],dist))
-	intcdist = int(math.ceil(dist))
-	print("itegered and ceilinged distance is %s" % (intcdist)) 
-
-	if intcdist > shortest:
-		print("distance is > shortest distance so far, %s" % (shortest))
-		return False
-	else:
-		print("@@@@ replacing shortest distance with %s" % (intcdist))
-		shortest = intcdist
-
-	valB = dynamicJ(P,i+1,Q,j+1,shortest)
-	print("result of dynamicJ with both jump = %s" % (valB))
-	if valB == True:
-		return True
-	valP = dynamicJ(P,i+1,Q,j,shortest)
-	print("result of dynamicJ with P jump = %s" % (valP))
-	if valP == True:
-		return True
-	valQ = dynamicJ(P,i,Q,j+1,shortest)
-	print("result of dynamicJ with Q jump = %s" % (valQ))
-	if valQ == True:
-		return True
-	print("comparing %s %s %s %s" % (shortest, valP, valQ, valB))
-
-	return False
-
-#	print("dynamicJ; i=%s j=%s" % (i, j))
-	#normal memoization is just keeping track of shortest, not returning minimum
-#	print("shortest=%s" % (shortest))
-#	if i >= len(P) and j >= len(Q): #if BOTH are finished, a path exists
-#		return shortest
-#	elif i >= len(P): #if one is finished but not other, then try another path
-#		return 2380 
-#	elif j >= len(Q):
-#		return 2380
-
-#	print("PRE: shortest=%s" % (shortest))
-#	dist = math.ceil(math.sqrt(pow((P[i][0]-Q[j][0]),2)+pow((P[i][1]-Q[j][1]),2)))
-#	print("dist=%s" % (dist))
-#	if (dist > shortest):
-#		return shortest
-#	jumpP = dynamicJ(P,i+1,Q,j,shortest)
-#	print("jumpP=%s" % (jumpP))
-#	jumpQ = dynamicJ(P,i,Q,j+1,shortest)
-#	print("jumpQ=%s" % (jumpQ))
-#	jumpB = dynamicJ(P,i+1,Q,j+1,shortest)
-#	print("jumpB=%s" % (jumpB))
-
-#	shortest = min([dist, jumpP, jumpQ, jumpB, shortest])
-#	print("@@@@ POST: shortest=%s" % (shortest))
-#	print("")
-#	return shortest
+	print("dist=%s" % (dist))
+	print("non-viable leashes:")
+	initLen = len(L)
+	for x in range(0,len(L)):
+		if L[x] < dist:
+			print(L[x])
+		else:
+			break
+	for y in range(0,x):
+		L.pop(y)
+	print(L)	
+	val = []
+	#figure out which of next 3 steps is shortest, take it
+	val.append(int(math.ceil(math.sqrt(pow((P[i+1][0]-Q[j][0]),2)+pow((P[i+1][1]-Q[j][1]),2)))))
+	val.append(int(math.ceil(math.sqrt(pow((P[i][0]-Q[j+1][0]),2)+pow((P[i][1]-Q[j+1][1]),2)))))
+	val.append(int(math.ceil(math.sqrt(pow((P[i+1][0]-Q[j+1][0]),2)+pow((P[i+1][1]-Q[j+1][1]),2)))))
+	print(val)
 
 def output(num):
 	fo = open("output.txt","w+")
 	fo.write(str(num))
 
 def main():
-	M = read_num(1,0,sys.argv[1]);
+	M = read_num(1,0,"input.txt");
 	P = [[0 for x in range(2)] for y in range(0,M)]
-	P = read_num(2,M,sys.argv[1]);
-	N = read_num(3,0,sys.argv[1]);
+	P = read_num(2,M,"input.txt");
+	N = read_num(3,0,"input.txt");
 	Q = [[0 for x in range(2)] for y in range(0,N)]
-	Q = read_num(4,N,sys.argv[1]);
-	T = read_num(5,0,sys.argv[1]);
-	L = read_num(6,T,sys.argv[1]);
+	Q = read_num(4,N,"input.txt");
+	T = read_num(5,0,"input.txt");
+	L = read_num(6,T,"input.txt");
 	L.sort()
 	
 
-	for x in range(0,T):
-		print("memo")
+	val = 0
+	memo = []
+	val = memoJ(P,0,Q,0,L,memo)
+	if M < 500 and N < 500 and T < 500:
+		for x in range(0,T):
+			val = J(P,0,Q,0,L[x])
+			if val == True:
+				val = L[x]
+				break
+		print("normal iterative found %s" % (val))
+	else:
+		print("too big for normal recursion! silly python.")
 		memo = []
-		val = memoJ(P,0,Q,0,L[x],memo)
-		if val == True:
-			val = L[x]
-			break
+		val = memoJ(P,0,Q,0,L,memo)
+		print("memoized version found %s" % (val))
+	
 
 	output(val)
 
