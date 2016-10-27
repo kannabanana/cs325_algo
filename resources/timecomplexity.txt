@@ -1,8 +1,9 @@
-
+Youtube:
+https://www.youtube.com/watch?v=9wXgsugnpzc
+	-comparing two functions
 
 Literal cheat-sheet for all time complexities:
 	http://bigocheatsheet.com/
-
 
 Awesome at explaining big o vs. little o vs. theta vs. omega:
 https://cathyatseneca.gitbooks.io/data-structures-and-algorithms/content/analysis/notations.html
