@@ -185,17 +185,17 @@ def main():
 	intersection = 0;
 
 	#input list P,Q and number of line segments from a given text file
-	N = input_listN(sys.argv[1]);	
+	N = input_listN("input.txt");	
 	N = int(N)	#convert str to int
 
 
 	#getting the P list without commas
-	P = input_listP(sys.argv[1]);
+	P = input_listP("input.txt");
 	for i in range(0,len(P)):
 		P[i] = int(P[i])
 	
 	#getting the Q list without commas (cheating because only one return and I know how many lines in text file)
-	Q = input_listQ(sys.argv[1]);	
+	Q = input_listQ("input.txt");	
 	for i in range(0,len(Q)):
 		Q[i] = int(Q[i])
 

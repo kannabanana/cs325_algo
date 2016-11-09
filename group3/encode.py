@@ -18,6 +18,8 @@ def getlists(C,F,ipt):
             F.append(ipt.count(i))
 
 def out1(C,F,key1,ipt,list1):
+    for i in range(0,len(C)):
+        key1.append(format(i, '05b'))
     for i in ipt:
         for j in range(0,len(C)):
             if C[j]==i:
@@ -29,24 +31,32 @@ def out2(C,F,key1,ipt,freqlist):
         freqlist.append(key1[i])
         freqlist.append(format(F[i],'019b'))
 
+def out3(C,F,key2):
+
+
+
+
 def main():
     C = []
     F = []
     key1 = []
-    ipt = getipt()
-    getlists(C,F,ipt)
-    for i in range(0,len(C)):
-        key1.append(format(i, '05b'))
+    key2 = []
     list1 = []
     freqlist = []
+    ipt = getipt()
+
+    getlists(C,F,ipt)
+
     out1(C,F,key1,ipt,list1)
     str1 = ''.join(list1)
     print(str1)
     print("output1: %s" % (len(str1)))
 
     out2(C,F,key1,ipt,freqlist)
-    print(freqlist)
     str2 = ''.join(freqlist)
+    print(str2)
     print("output2: %s" % (len(str2)))
+
+    out3(C,F,key2)
 
 main()
