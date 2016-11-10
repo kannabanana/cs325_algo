@@ -15,6 +15,19 @@ def encode(symb2freq):
         heappush(heap, [lo[0] + hi[0]] + lo[1:] + hi[1:])
     return sorted(heappop(heap)[1:], key=lambda p: (len(p[-1]), p))
  
+
+def bin(str1):
+	str2 = str1[::-1]
+	x = 0
+	binary = 0
+	lengthstr2 = len(str2)
+	for x in range(0,lengthstr2):
+		if str2[x] == "1":
+			temp = pow(2,x)	
+			binary = binary+temp
+	return binary
+
+
 #txt = "this is an example for huffman encoding"
 txt = "aabbacb"
 symb2freq = defaultdict(int)
@@ -23,9 +36,14 @@ for ch in txt:
 # in Python 3.1+:
 # symb2freq = collections.Counter(txt)
 huff = encode(symb2freq)
-print "Symbol\tWeight\tHuffman Code"
+#print "Symbol\tWeight\tHuffman Code"
+#for p in huff:
+#   print "%s\t%s\t%s" % (p[0], symb2freq[p[0]], p[1])
+
+total = 0
 for p in huff:
-    print "%s\t%s\t%s" % (p[0], symb2freq[p[0]], p[1])
+	binary = bin(p[1])
+	temp = symb2freq[p[0]]*binary
+	total = temp+total
 
-
-
+print total
