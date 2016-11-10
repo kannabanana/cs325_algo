@@ -1,9 +1,16 @@
+#SR Kanna, Isaac Stallcup
+#Algorithms CS325
+#GA3
+#Date: November 9th 2016
+#Description: Data compression via simple encoding, run length and huffman codes. Given an input string (a-z) less than 2^19, generate the encoded file length of all three methods.
+
 import os;
 import sys;
 import re;
 import string;
 from string import ascii_lowercase;
 
+#Input function
 def getipt():
     fo = open("input.txt","r")
     parse = fo.readline();
@@ -11,11 +18,13 @@ def getipt():
     fo.close()
     return parse
 
+
 def getlists(C,F,ipt):
     for i in ascii_lowercase:
         if ipt.count(i) != 0:
             C.append(i)
             F.append(ipt.count(i))
+
 
 def out1(C,F,key1,ipt,list1):
     for i in range(0,len(C)):
@@ -26,13 +35,14 @@ def out1(C,F,key1,ipt,list1):
                 print("%s, %s" % (C[j],key1[j]))
                 list1.append(key1[j])
 
+
 def out2(C,F,key1,ipt,freqlist):
     for i in range(0,len(C)):
         freqlist.append(key1[i])
         freqlist.append(format(F[i],'019b'))
 
-def out3(C,F,key2):
 
+def out3(C,F,key2):
 
 
 
