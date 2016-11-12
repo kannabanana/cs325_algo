@@ -75,6 +75,11 @@ def bin(str1):
 	return binary
 
 
+def output(num):
+	fo = open("output.txt","w+")
+	fo.write(num)
+
+
 def main():
 	C = []
 	F = []
@@ -83,7 +88,7 @@ def main():
 	list1 = []
 	freqlist = []
 	ipt = getipt()
-
+	print type(ipt)
 	getlists(C,F,ipt)
 
 	out1(C,F,key1,ipt,list1)
@@ -98,19 +103,22 @@ def main():
 
 
 #    out3(C,F,key2)
-
-	txt = "aabbacb"
+	txt = "aaabbbcccddd"
 	symb2freq = defaultdict(int)
 	for ch in txt:
 		symb2freq[ch] += 1
 	huff = encode(symb2freq)
+	
+#	print "Symbol\tWeight\tHuffman Code"
+#	for p in huff:
+#	    print "%s\t%s\t%s" % (p[0], symb2freq[p[0]], p[1])
 
 	total = 0
 	for p in huff:
-		binary = bin(p[1])
+		binary = len(p[1])
 		temp = symb2freq[p[0]]*binary
 		total = temp+total
-  
-	print total
-
+ 
+	output(total)
 main()
+
