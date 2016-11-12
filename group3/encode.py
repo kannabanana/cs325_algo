@@ -75,9 +75,14 @@ def bin(str1):
 	return binary
 
 
-def output(num):
-	fo = open("output.txt","w+")
-	fo.write(num)
+def output(num1,num2,num3):
+        print("outputting \n%s\n%s\n%s" % (num1,num2,num3))
+	fo = open("output.txt","w")
+	fo.write(str(num1)+"\n")
+        fo.close()
+	fo = open("output.txt","a")
+	fo.write(str(num2)+"\n")
+	fo.write(str(num3))
 
 
 def main():
@@ -104,14 +109,15 @@ def main():
 
 #    out3(C,F,key2)
 	txt = "aaabbbcccddd"
+        txt = "".join(ipt)
 	symb2freq = defaultdict(int)
 	for ch in txt:
 		symb2freq[ch] += 1
 	huff = encode(symb2freq)
 	
-#	print "Symbol\tWeight\tHuffman Code"
-#	for p in huff:
-#	    print "%s\t%s\t%s" % (p[0], symb2freq[p[0]], p[1])
+	print "Symbol\tWeight\tHuffman Code"
+	for p in huff:
+	    print "%s\t%s\t%s" % (p[0], symb2freq[p[0]], p[1])
 
 	total = 0
 	for p in huff:
@@ -119,6 +125,6 @@ def main():
 		temp = symb2freq[p[0]]*binary
 		total = temp+total
  
-	output(total)
+	output(len(str1),len(str2),total)
 main()
 
