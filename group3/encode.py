@@ -112,15 +112,17 @@ def main():
             return
 
 
-        txt = "".join(ipt)
+      #  txt = "".join(ipt)
+	txt = ipt
+	print ipt
 	symb2freq = defaultdict(int)
 	for ch in txt:
 		symb2freq[ch] += 1
 	huff = encode(symb2freq)
 	
-#	print "Symbol\tWeight\tHuffman Code"
-#        for p in huff:
-#            print "%s\t%s\t%s" % (p[0], symb2freq[p[0]], p[1])
+	print "Symbol\tWeight\tHuffman Code"
+        for p in huff:
+            print "%s\t%s\t%s" % (p[0], symb2freq[p[0]], p[1])
 
 	total = 0
 	for p in huff:
