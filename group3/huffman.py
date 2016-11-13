@@ -194,8 +194,9 @@ if __name__=='__main__':
     # first way to use Encoder/Decoder
     enc = Encoder(original_file)    
     enc.write(compressed_file)
-    len = os.path.getsize(compressed_file)
-    print "the length of the compressed file is", len
+#    len = os.path.getsize(compressed_file)
+    total = sum(1 for line in compressed_file) 
+    print "the length of the compressed file is", total
     dec = Decoder(compressed_file)
     dec.decode_as(decompressed_file)
 

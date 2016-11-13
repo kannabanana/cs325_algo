@@ -112,8 +112,7 @@ def main():
             return
 
 
-      #  txt = "".join(ipt)
-	txt = ipt
+     	txt = "".join(ipt)
 	print ipt
 	symb2freq = defaultdict(int)
 	for ch in txt:
