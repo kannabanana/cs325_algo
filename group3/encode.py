@@ -16,7 +16,6 @@ from collections import defaultdict
 def getipt():
     fo = open("input.txt","r")
     parse = fo.readline();
-    print(parse)
     fo.close()
     return parse
 
@@ -34,17 +33,23 @@ def out1(C,F,key1,ipt,list1):
     for i in ipt:
         for j in range(0,len(C)):
             if C[j]==i:
-                print("%s, %s" % (C[j],key1[j]))
                 list1.append(key1[j])
 
 
 def out2(C,F,key1,ipt,freqlist):
-    for i in range(0,len(C)):
-        freqlist.append(key1[i])
-        freqlist.append(format(F[i],'019b'))
+    num = 0
+    if len(C) == 1:
+        freqlist.append(key1[0])
+        freqlist.append(format(len(ipt),'019b'))
+        return
+    for i in range(0,len(ipt)):
+        if ipt[i] == ipt[i-1]: #consecutive characters same
+            num = num + 1
+        if ipt[i] != ipt[i-1]:
+            freqlist.append(key1[C.index(ipt[i])])
+            freqlist.append(format(num,'019b'))
+            num = 0
 
-
-#def out3(C,F,key2):
 
 
 #huffman_algorithm
@@ -64,25 +69,24 @@ def encode(symb2freq):
 
 #convert string to binary - huffman
 def bin(str1):
-	str2 = str1[::-1]
-	x = 0
-	binary = 0
-	lengthstr2 = len(str2)
-	for x in range(0,lengthstr2):
-		if str2[x] == "1":
-			temp = pow(2,x)	
-			binary = binary+temp
-	return binary
+    str2 = str1[::-1]
+    x = 0
+    binary = 0
+    lengthstr2 = len(str2)
+    for x in range(0,lengthstr2):
+        if str2[x] == "1":
+            temp = pow(2,x)	
+	    binary = binary+temp
+    return binary
 
 
 def output(num1,num2,num3):
-        print("outputting \n%s\n%s\n%s" % (num1,num2,num3))
-	fo = open("output.txt","w")
-	fo.write(str(num1)+"\n")
-        fo.close()
-	fo = open("output.txt","a")
-	fo.write(str(num2)+"\n")
-	fo.write(str(num3))
+    fo = open("output.txt","w")
+    fo.write(str(num1)+"\n")
+    fo.close()
+    fo = open("output.txt","a")
+    fo.write(str(num2)+"\n")
+    fo.write(str(num3))
 
 
 def main():
@@ -93,31 +97,30 @@ def main():
 	list1 = []
 	freqlist = []
 	ipt = getipt()
-	print type(ipt)
 	getlists(C,F,ipt)
 
-	out1(C,F,key1,ipt,list1)
-	str1 = ''.join(list1)
-	print(str1)
-	print("output1: %s" % (len(str1)))
+
+        out1(C,F,key1,ipt,list1)
+        str1 = ''.join(list1)
 
 	out2(C,F,key1,ipt,freqlist)
 	str2 = ''.join(freqlist)
-	print(str2)
-	print("output2: %s" % (len(str2)))
+
+        if len(C) == 1: #only 1 char
+            total = len(ipt);
+	    output(len(str1),len(str2),total)
+            return
 
 
-#    out3(C,F,key2)
-	txt = "aaabbbcccddd"
         txt = "".join(ipt)
 	symb2freq = defaultdict(int)
 	for ch in txt:
 		symb2freq[ch] += 1
 	huff = encode(symb2freq)
 	
-	print "Symbol\tWeight\tHuffman Code"
-	for p in huff:
-	    print "%s\t%s\t%s" % (p[0], symb2freq[p[0]], p[1])
+#	print "Symbol\tWeight\tHuffman Code"
+#        for p in huff:
+#            print "%s\t%s\t%s" % (p[0], symb2freq[p[0]], p[1])
 
 	total = 0
 	for p in huff:

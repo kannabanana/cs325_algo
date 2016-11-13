@@ -28,7 +28,7 @@ def bin(str1):
 	return binary
 
 
-txt = "aaabbbcccddd"
+txt = "aabbacb"
 symb2freq = defaultdict(int)
 for ch in txt:
     symb2freq[ch] += 1

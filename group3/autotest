@@ -1,0 +1,10 @@
+#!/bin/bash
+
+for i in 1 2 3 4 5
+do
+	echo "TEST $i"
+	cp ./tests/$i/input.txt .
+	python encode.py
+	diff -y ./output.txt ./tests/$i/output.txt
+	echo
+done
