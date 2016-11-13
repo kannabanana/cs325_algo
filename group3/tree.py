@@ -78,7 +78,25 @@ def out2(C,F,key1,ipt,freqlist):
             freqlist.append(format(num,'019b'))
             num = 0
 
-
+def find_mins(F,C):
+        tmpF = F[:]
+        tmpC = C[:]
+        for i in range(0,len(F)-1):
+            min1 = max(tmpF)+1
+            min2 = max(tmpF)+1
+            for i in tmpF:
+                if i > 0 and min1 > i:
+                    min1 = i
+            for j in tmpF:
+                if j > 0 and min2 > j and tmpF.index(j) != tmpF.index(min1):
+                    min2 = j
+            print(C[tmpF.index(min1)])
+            print(C[tmpF.index(min2)])
+            tmpF[tmpF.index(min1)] = min1 + min2
+            tmpF[tmpF.index(min2)] = -1
+            print(min1)
+            print(min2)
+            print(tmpF)
 
 #huffman_algorithm
 def encode(symb2freq):
@@ -182,24 +200,6 @@ def main():
 #        test3 = joinexist('g',test1,test2)
 #        traverse(test3)
 
-        tmpF = F[:]
-        tmpC = C[:]
-        for i in range(0,len(F)-1):
-            min1 = max(tmpF)+1
-            min2 = max(tmpF)+1
-            for i in tmpF:
-                if i > 0 and min1 > i:
-                    min1 = i
-            for j in tmpF:
-                if j > 0 and min2 > j and tmpF.index(j) != tmpF.index(min1):
-                    min2 = j
-            print(C[tmpF.index(min1)])
-            print(C[tmpF.index(min2)])
-            tmpF[tmpF.index(min1)] = min1 + min2
-            tmpF[tmpF.index(min2)] = -1
-            print(min1)
-            print(min2)
-            print(tmpF)
 
 
 main()
