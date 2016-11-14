@@ -29,16 +29,50 @@ def buildnewnode(lbl, leftlbl, rightlbl):
     return curr
 
 def joinexist(lbl,nodel, noder):
+    if type(nodel) == list:
+        nodel = buildnewnode(nodel[0],nodel[1],nodel[2])
+    if type(noder) == list:
+        noder = buildnewnode(noder[0],noder[1],noder[2])
     curr = Node(lbl, nodel, noder)
     return curr
 
 def traverse(node): #inorder traversal?
+    print("traversing node %s" % (node.lbl))
     if node.left == None and node.right == None: #leaf
-        print(node.lbl)
+        print("leaf with val %s" % (node.lbl))
     if node.left != None:
         traverse(node.left)
     if node.right != None:
         traverse(node.right)
+
+def find_mins(A,B):
+    min1 = max(B)+1
+    min2 = max(B)+1
+    x = -1
+    y = -1
+    for i in range(0,len(B)):
+        if B[i] < min1 and B[i] > 0:
+            min1 = B[i]
+            x = i
+    for i in range(0,len(B)):
+        if B[i] < min2 and B[i] > 0 and i != x:
+            min2 = B[i]
+            y = i
+    return [x, y]
+
+def out3(C,F,ipt):
+    A = C[:]
+    B = F[:]
+    for i in range(0,len(C)):
+        [x,y] = find_mins(A,B)
+        print("mins found %s,%s at idxs %s,%s" % (B[x],B[y],x,y))
+
+        B[x] = B[x] + B[y]
+        B[y] = -1
+
+        traverse(tree[len(tree)-1])
+
+
 
 #Input function
 def getipt():
@@ -78,25 +112,8 @@ def out2(C,F,key1,ipt,freqlist):
             freqlist.append(format(num,'019b'))
             num = 0
 
-def find_mins(F,C):
-        tmpF = F[:]
-        tmpC = C[:]
-        for i in range(0,len(F)-1):
-            min1 = max(tmpF)+1
-            min2 = max(tmpF)+1
-            for i in tmpF:
-                if i > 0 and min1 > i:
-                    min1 = i
-            for j in tmpF:
-                if j > 0 and min2 > j and tmpF.index(j) != tmpF.index(min1):
-                    min2 = j
-            print(C[tmpF.index(min1)])
-            print(C[tmpF.index(min2)])
-            tmpF[tmpF.index(min1)] = min1 + min2
-            tmpF[tmpF.index(min2)] = -1
-            print(min1)
-            print(min2)
-            print(tmpF)
+
+
 
 #huffman_algorithm
 def encode(symb2freq):
@@ -157,6 +174,7 @@ def main():
 	    output(len(str1),len(str2),total)
             return
 
+        out3(C,F,ipt)
 
      	txt = "".join(ipt)
 #	print ipt
@@ -195,10 +213,10 @@ def main():
  
 	output(len(str1),len(str2),len(str3))
 
-#        test1 = buildnewnode('a','b','c')
-#        test2 = buildnewnode('d','e','f')
-#        test3 = joinexist('g',test1,test2)
-#        traverse(test3)
+        test1 = buildnewnode('a','b','c')
+        test2 = buildnewnode('d','e','f')
+        test3 = joinexist('g',test1,test2)
+        traverse(test3)
 
 
 
