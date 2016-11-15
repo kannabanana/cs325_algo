@@ -27,7 +27,7 @@ def main():
 	i = sys.argv[1]
 	i = int(i)
 	salt = ['a']*i
-#	salt = salt_fun(salt,i)
+	salt = salt_fun(salt,i)
 	str1 = ''.join(salt)
 	output(str1,sys.argv[2])
 
