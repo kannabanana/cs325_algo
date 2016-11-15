@@ -97,6 +97,8 @@ def main():
 	list1 = []
 	freqlist = []
 	ipt = getipt()
+	print len(ipt)
+	#print "the length of the input is ",len(ipt)
 	getlists(C,F,ipt)
 
 
@@ -113,15 +115,14 @@ def main():
 
 
      	txt = "".join(ipt)
-	print ipt
 	symb2freq = defaultdict(int)
 	for ch in txt:
 		symb2freq[ch] += 1
 	huff = encode(symb2freq)
 	
-	print "Symbol\tWeight\tHuffman Code"
-        for p in huff:
-            print "%s\t%s\t%s" % (p[0], symb2freq[p[0]], p[1])
+#	print "Symbol\tWeight\tHuffman Code"
+#        for p in huff:
+#            print "%s\t%s\t%s" % (p[0], symb2freq[p[0]], p[1])
 
 	total = 0
 	for p in huff:
