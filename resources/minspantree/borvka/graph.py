@@ -74,16 +74,27 @@ if __name__ == '__main__':
      g.add_edge('c', 'f', 2)
      g.add_edge('d', 'e', 6)
      g.add_edge('e', 'f', 9)
- 
+
+     A = ()
+     A = list(A) 
+     temp = ()
+     temp = list(temp)
      for v in g:
          for w in v.get_connections():
              vid = v.get_id()
              wid = w.get_id()
+	     temp.append(vid)
+	     temp.append(wid)
+	     temp.append(v.get_weight(w))
+	     A.append(temp)
+	     temp = ()
+	     temp = list(temp)
              print '( %s , %s, %3d)'  % ( vid, wid, v.get_weight(w))
-      #sort based on weight
- #check if they're in the same subset
- #if they're not, add the weight to a seperate 
  
+    # print A
+     for v in g:
+	w = v.get_connections(v)
+	print w	
  
    #  for v in g:
     #     print 'g.vert_dict[%s]=%s' %(v.get_id(), g.vert_dict[v.get_id()])
