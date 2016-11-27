@@ -1,0 +1,3 @@
+adjacency matrix: O(|v|^2)
+adjacency list/binary heap: O((|V|+|E|)log|V|) = O(|E|log|V|)
+Fibonacci Heap/Adjacency List: O(|E|+Vlog|V|)

@@ -1,0 +1,2 @@
+outside loop: O(logv)
+Inner loop: O(ElogV)

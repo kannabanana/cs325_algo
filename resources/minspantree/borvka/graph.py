@@ -1,3 +1,4 @@
+import networkz as nx
 class Vertex:
      def __init__(self, node):
          self.id = node
@@ -91,10 +92,14 @@ if __name__ == '__main__':
 	     temp = list(temp)
              print '( %s , %s, %3d)'  % ( vid, wid, v.get_weight(w))
  
-    # print A
-     for v in g:
-	w = v.get_connections(v)
-	print w	
+    
+
+     g = nx.Graph()
+     d = list(nx.connected_componenet_subgraphs(g))
+# print A
+   #  for v in g:
+#	w = v.get_connections(v)
+#	print w	
  
    #  for v in g:
     #     print 'g.vert_dict[%s]=%s' %(v.get_id(), g.vert_dict[v.get_id()])
