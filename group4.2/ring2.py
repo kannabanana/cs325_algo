@@ -29,15 +29,18 @@ def input():
 
 #function checks if there are crosses
 def check_cross(roads):
-	l = len(roads)		#some even length number
-	for x in range(0,l):
-		for i in range(0,x):
-			
-
+	#check the coordinate and everything before it
+	for i in range(0,len(roads),2):
+		for x in range(0,i,2):
+			if(roads[x] >= roads[i] and roads[x+1] < roads[i+1]):
+					print "the first coordinates are ", roads[x],roads[x+1],"the second ones are ",roads[i],roads[i+1]
+		#it's been "inserted"
+		#check if it clashes with anything before it
+			#check that by checking every coordinated inserted before
+				#clash occurs if the first one is equal or less than AND the second is bigger
 
 def main():
 	[V,E,roads] = input()
-	print V
 	print roads
-	print len(roads)
+	check_cross(roads)
 main()
