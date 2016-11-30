@@ -1,38 +1,43 @@
+"""
+SR Kanna, Isaac Stallcup
+Amir Nayyeri
+CS325
+Nov 29th 2016
+"""
+
+
+
 import random
 import os
 import string
 
 
-
 #gets input from files
-def ipt(): #gets input from file, indexes the roads
-    fo = open("input.txt",'r')
-    [V,E] = fo.readline().rstrip().split(',')
-    roads = fo.readline().split(',')
-    for i in range(0,int(E)):
-        #replace with tuples if things get tricky with access
-        roads[i] = '('+roads[i] +','+ roads[i+1]+')'
-        roads.pop(i+1)
-    edges = []
-    #roads are numbered; 'negations' of roads are negative #s
-    for x in range(1,1+len(roads)):
-        edges.append(x)
-        edges.append(-x)
-        #HUGE TRADEOFF, BE CAREFUL: indexing for vertices is OFF BY ONE
-    return [int(V),int(E),roads,edges]
+def input():
+	fo = open("input.txt",'r')
+	[V,N] = fo.readline().rstrip().split(',')  
+	roads = fo.readline().split(',')
+	return [int(V),int(N),roads]
 
+
+#we know they cross IF 
+#1	2	3	4	5#
+#1		3
+#1	2
+	#2		4		VIOLATES THE RULE!!
 
 
 #function checks if there are crosses
-#def check_cross(house):
-
-
-
+def check_cross(roads):
+	l = len(roads)		#some even length number
+	for x in range(0,l):
+		for i in range(0,x):
+			
 
 
 def main():
-	[V,E,roads,edges] = ipt()
- 	print [V,E,roads]
-
-
+	[V,E,roads] = input()
+	print V
+	print roads
+	print len(roads)
 main()
