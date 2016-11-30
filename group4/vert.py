@@ -1,3 +1,5 @@
+#idea: determine if <1 paths attempting to cross inside
+
 import random;
 import sys;
 import os;
@@ -5,12 +7,12 @@ import re;
 
 class Graph:
     #constructor
-    def __init__(self,V,E,roads):
-        self.V = V
-        self.E = E
-        self.vertexRange = [i for i in range(0,V)]
-        self.adj = dict(zip(self.vertexRange,[[] for x in range(0,V)]))
-        self.rev = dict(zip(self.vertexRange,[[] for x in range(0,V)]))
+    def __init__(self,V,edges,roads):
+        self.vertexRange = [i for i in range(1,V+1)]
+        self.vertexRange.extend([i for i in range(-V,0)]) 
+        self.adj = dict(zip(self.vertexRange,[[] for x in range(0,2*V)]))
+        self.rev = dict(zip(self.vertexRange,[[] for x in range(0,2*V)]))
+        self.roadmap = dict(zip(range(1,1+len(roads)),roads))
         
     def add_edge(self,fr,to):
 #        print("link from %s to %s" % (fr, to))
@@ -20,8 +22,8 @@ class Graph:
     #adjacency list for directed graph
     adj = dict()
     rev = dict()
-    V = 0
-    E = 0
+    #roadmap maps index numbers to respective roads
+    roadmap = dict()
     vertexRange = []
 
 def ipt(): #gets input from file, indexes the roads
@@ -29,12 +31,27 @@ def ipt(): #gets input from file, indexes the roads
     [V,E] = fo.readline().rstrip().split(',')
     roads = fo.readline().split(',')
     for i in range(0,int(E)):
-        roads[i] = (int(roads[i]),int(roads[i+1]))
+        #replace with tuples if things get tricky with access
+        roads[i] = '('+roads[i] +','+ roads[i+1]+')'
         roads.pop(i+1)
-    return [int(V),int(E),roads]
+    edges = []
+    #roads are numbered; 'negations' of roads are negative #s
+    for x in range(1,1+len(roads)):
+        edges.append(x)
+        edges.append(-x)
+        #HUGE TRADEOFF, BE CAREFUL: indexing for vertices is OFF BY ONE
+    return [int(V),int(E),roads,edges]
 
 def populate_edges(G,edges,roads):
-    return False
+#    print roads
+    for x in roads:
+        ints = x[:-1][1:].split(',')
+        pair = (int(ints[0])+1,int(ints[1])+1)
+        #actually turn it into tuple for ease of use
+        G.add_edge(-pair[0],pair[1])
+        G.add_edge(pair[0],-pair[1])
+        G.add_edge(-pair[1],pair[0])
+        G.add_edge(pair[1],-pair[0])
 
 def initialDFS(G,stack,visited,curr):
     if curr in visited:
@@ -78,16 +95,21 @@ def Kosaraju(G):
         
 
 def main():
-    [V,E,roads] = ipt()
-    print roads
-    G = Graph(V,E,roads)
+    #V is # if vertexes (houses)
+    #E is # edges (roads)
+    #roads = list of house pairs that roads are between
+    [V,E,roads,edges] = ipt()
+    #CAREFUL graph is not describing the ring road but is part of 2SAT
+    G = Graph(V,edges,roads)
+#    print G.roadmap
+#    print G.adj
 
-    #finding intersections: Euler's Formula
-    #"planar graph" is graph drawn in flat plane
-    #without lines crossing (what we want)
-    #Euler gives F - E + V = 2; or that
-    #number of 'faces' (area in closed loop
-    #of edges) minus num edges + num
-    # vertices must be 2 for graph to be planar
+    populate_edges(G,edges,roads)
+
+    #run Kosaraju's algorithm to find strongly connected components
+    Kosaraju(G)
+    print G.adj
+    
+
 
 main()

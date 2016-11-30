@@ -107,8 +107,8 @@ def main():
     populate_edges(G,edges,roads)
 
     #run Kosaraju's algorithm to find strongly connected components
-    Kosaraju(G)
-    print G.adj
+   # Kosaraju(G)
+   # print G.adj
     
 
 
