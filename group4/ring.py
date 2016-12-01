@@ -1,115 +1,79 @@
-#idea: determine if <1 paths attempting to cross inside
-
 import random;
-import sys;
 import os;
+import sys;
 import re;
+from itertools import combinations;
 
-class Graph:
-    #constructor
-    def __init__(self,V,edges,roads):
-        self.vertexRange = [i for i in range(1,V+1)]
-        self.vertexRange.extend([i for i in range(-V,0)]) 
-        self.adj = dict(zip(self.vertexRange,[[] for x in range(0,2*V)]))
-        self.rev = dict(zip(self.vertexRange,[[] for x in range(0,2*V)]))
-        self.roadmap = dict(zip(range(1,1+len(roads)),roads))
-        
-    def add_edge(self,fr,to):
-#        print("link from %s to %s" % (fr, to))
-        self.adj[fr].append(to)
-        self.rev[to].append(fr)
+def YES():
+    fo = open("output.txt",'w')
+    fo.write("YES")
+    fo.close()
 
-    #adjacency list for directed graph
-    adj = dict()
-    rev = dict()
-    #roadmap maps index numbers to respective roads
-    roadmap = dict()
-    vertexRange = []
+def NO():
+    fo = open("output.txt",'w')
+    fo.write("NO")
+    fo.close()
 
-def ipt(): #gets input from file, indexes the roads
+def ipt():
     fo = open("input.txt",'r')
     [V,E] = fo.readline().rstrip().split(',')
     roads = fo.readline().split(',')
-    for i in range(0,int(E)):
-        #replace with tuples if things get tricky with access
-        roads[i] = '('+roads[i] +','+ roads[i+1]+')'
-        roads.pop(i+1)
     edges = []
-    #roads are numbered; 'negations' of roads are negative #s
-    for x in range(1,1+len(roads)):
-        edges.append(x)
-        edges.append(-x)
-        #HUGE TRADEOFF, BE CAREFUL: indexing for vertices is OFF BY ONE
-    return [int(V),int(E),roads,edges]
+    for i in range(0,int(E)):
+        edges.append((int(roads[i]),int(roads[i+1])))
+        roads.pop(i+1)
+    return [int(V),edges]
 
-def populate_edges(G,edges,roads):
-#    print roads
-    for x in roads:
-        ints = x[:-1][1:].split(',')
-        pair = (int(ints[0])+1,int(ints[1])+1)
-        #actually turn it into tuple for ease of use
-        G.add_edge(-pair[0],pair[1])
-        G.add_edge(pair[0],-pair[1])
-        G.add_edge(-pair[1],pair[0])
-        G.add_edge(pair[1],-pair[0])
+def find_crossings(edges):
+    inters = []
+    for x in range(0,len(edges)):
+        for y in range(0,x):
+            if edges[x][0] >= edges[y][1]:
+                continue
+            if edges[y][0] > edges[x][0] and edges[y][1] > edges[x][1]:
+                inters.append((edges[x],edges[y]))
+            if edges[y][0] < edges[x][0] and edges[y][1] < edges[x][1]:
+                inters.append((edges[x],edges[y]))
 
-def initialDFS(G,stack,visited,curr):
-    if curr in visited:
-        return
-#    print("%s parent" % (curr))
-    visited.append(curr)
-    for x in G.adj[curr]:
-#        print("%s child" % (x))
-        initialDFS(G,stack,visited,x)
-    stack.append(curr)
+    return inters
 
-def reverseDFS(G,stack,visited,curr,tree):
-    if curr in visited:
-        return
-    if curr not in visited:
-#        print("%s = curr" % (curr))
-        visited.append(curr)
-        tree.append(curr)
-        for t in G.rev[curr]:
-            reverseDFS(G,stack,visited,t,tree)
-
-def Kosaraju(G):
-    visited = []
-    stack = []
-    for x in G.vertexRange:
-#        print("chose %s" % (x))
-        initialDFS(G,stack,visited,x)
-    visited = []
-    print G.adj
-    print stack
-    while stack:
-#        print ("stack %s" % (stack))
-#        print ("visited %s" % (visited))
-        tree = []
-        if stack[-1] in visited:
-            stack.pop()
+def evaluate(cnf,form):
+    for n in cnf:
+        if n[0][1] == form[n[0][0]]:
             continue
-        print("running DFS")
-        reverseDFS(G,stack,visited,stack.pop(),tree)
-        print("found tree %s" % (tree))
-        
+        elif n[1][1] == form[n[1][0]]:
+            continue
+        else:
+            return False
+    return True
 
 def main():
-    #V is # if vertexes (houses)
-    #E is # edges (roads)
-    #roads = list of house pairs that roads are between
-    [V,E,roads,edges] = ipt()
-    #CAREFUL graph is not describing the ring road but is part of 2SAT
-    G = Graph(V,edges,roads)
-#    print G.roadmap
-#    print G.adj
+    [V,edges] = ipt()
+    key = [i for i in range(0,len(edges))]
+    edges2alpha = dict(zip(edges,key))
+    inters = find_crossings(edges)
 
-    populate_edges(G,edges,roads)
+    alpha = []
+    for i in inters:
+        alpha.append([edges2alpha[i[0]],edges2alpha[i[1]]])
+    cnf = []
+    for i in alpha:
+        cnf.append([[i[0],True],[i[1],True]])
+        cnf.append([[i[0],False],[i[1],False]])
 
-    #run Kosaraju's algorithm to find strongly connected components
-   # Kosaraju(G)
-   # print G.adj
-    
+    form = dict(zip(key,['' for n in key]))
 
+    for i in range(0,len(key)+1):
+        bools = list(combinations(key,i))
+        for x in bools:
+            for z in key:
+                form[z] = True
+            for y in x:
+                form[y] = False
+            if evaluate(cnf,form) == True:
+                YES()
+                return
+    NO()
+    return
 
 main()

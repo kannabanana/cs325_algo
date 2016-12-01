@@ -66,7 +66,7 @@ class Graph:
     rev = dict()
     vertices = []
 
-def ipt(): 
+def ipt():
     fo = open("input.txt",'r')
     [V,E] = fo.readline().rstrip().split(',')
     roads = fo.readline().split(',')
@@ -100,7 +100,7 @@ def find_crossings(edges):
             #if edges[y][0] < edges[x][0] and edges[y][1] < edges[x][1]:
             #    print("%s < %s and %s < %s" % (edges[y][0], edges[x][0], edges[y][1], edges[x][1]))
             #    inters.append((edges[x],edges[y]))
-            
+
     return inters
 
 def initialDFS(G,stack,visited,curr):
@@ -126,7 +126,7 @@ def reverseDFS(G,stack,visited,curr,tree):
 def Kosaraju(inters):
     G = Graph(len(inters),inters)
     print G.adj
-    
+
     #GOT EM IN 2CNF FORM BABY
 
     visited = []
@@ -159,8 +159,8 @@ def main():
         YES()
    # else:
    #     NO()
-    
-    
+
+
 
 
 main()

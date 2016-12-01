@@ -1,12 +1,10 @@
 #!/bin/bash
 
-for i in 1 2 3 4 
+for i in 1 2 3 4 5
 do
-	echo "TEST $i"
-	cat ./test4/$i/input.txt
-	echo
+	echo "Test $i"
 	cp ./test4/$i/input.txt .
-	python new.py
+	python ring.py
 	diff -y ./output.txt ./test4/$i/output.txt
 	echo
 done
