@@ -1,0 +1,12 @@
+#!/bin/bash
+
+for i in 1 2 3 4 
+do
+	echo "TEST $i"
+	cat ./test4/$i/input.txt
+	echo
+	cp ./test4/$i/input.txt .
+	python new.py
+	diff -y ./output.txt ./test4/$i/output.txt
+	echo
+done

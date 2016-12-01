@@ -11,55 +11,30 @@ def neg(x):
     tup = (x[0],x[1],False)
     return tup
 
-def flip(x):
-    tup = [0,0,0]
-    ret = (0,0,0)
-    if x[2] == False:
-        tup[0] = x[0]
-        tup[1] = x[1]
-        tup[2] = True
-        ret = tuple(tup)
-    else:
-        tup[0] = x[0]
-        tup[1] = x[1]
-        tup[2] = False
-        ret = tuple(tup)
-    return ret
-        
-
 class Graph:
     def __init__(self,V,edges):
         #takes in # vertices, list of all edges
         self.V = V
         #adjacency list for graph
-        self.vertices = []
+        paths = []
         added = []
         for x in edges:
-            pair = x
-            print pair
-            if pair[0] not in added:
-                self.vertices.append(tru(pair[0]))
-                self.vertices.append(neg(pair[0]))
-                added.append(pair[0])
-            if pair[1] not in added:
-                self.vertices.append(tru(pair[1]))
-                self.vertices.append(neg(pair[1]))
-                added.append(pair[1])
-        self.adj = dict(zip(self.vertices,[[] for i in range(0,4*V)]))
-        self.rev = dict(zip(self.vertices,[[] for i in range(0,4*V)]))
+            if x[0] not in added:
+                paths.append(tru(x[0]))
+                paths.append(neg(x[0]))
+                added.append(x[0])
+            if x[1] not in added:
+                paths.append(tru(x[1]))
+                paths.append(neg(x[1]))
+                added.append(x[1])
+        self.vertices = paths
+        self.adj = dict(zip(paths,[[] for i in range(0,4*V)]))
+        self.rev = dict(zip(paths,[[] for i in range(0,4*V)]))
         for x in edges:
-            #add x[0] OR x[1]
             self.adj[neg(x[0])].append(tru(x[1]))
             self.adj[neg(x[1])].append(tru(x[0]))
             self.rev[tru(x[0])].append(neg(x[1]))
             self.rev[tru(x[1])].append(neg(x[0]))
-
-
-            #add !x[0] OR !x[1]
-            self.adj[tru(x[0])].append(neg(x[1]))
-            self.adj[tru(x[1])].append(neg(x[0]))
-            self.rev[neg(x[0])].append(tru(x[1]))
-            self.rev[neg(x[1])].append(tru(x[0]))
 
     V = 0
     adj = dict()
@@ -104,7 +79,7 @@ def find_crossings(edges):
     return inters
 
 def initialDFS(G,stack,visited,curr):
- #   print curr
+    print curr
     if curr in visited:
         return
     visited.append(curr)
@@ -120,9 +95,6 @@ def reverseDFS(G,stack,visited,curr,tree):
     for t in G.rev[curr]:
         reverseDFS(G,stack,visited,t,tree)
 
-#TODO: correctly check if a 2-way path exists between item & its negation
-#maybe correct kosaraju?
-
 def Kosaraju(inters):
     G = Graph(len(inters),inters)
     print G.adj
@@ -133,18 +105,15 @@ def Kosaraju(inters):
     stack = []
     for x in G.vertices: #number of edges/OR pairs in 2cnf form
         initialDFS(G,stack,visited,x)
-   # print stack
+    print stack
     visited = []
-    forest = []
     while stack:
         tree = []
         if stack[-1] in visited:
             stack.pop()
             continue
         reverseDFS(G,stack,visited,stack.pop(),tree)
-        forest.append(tree)
-    print "forest"
-    print forest
+        print tree
     return True
 
 def main():
@@ -157,8 +126,8 @@ def main():
         #obviously no problems if lines never intersect
     if Kosaraju(inters) == True:
         YES()
-   # else:
-   #     NO()
+    else:
+        NO()
     
     
 
